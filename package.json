@@ -9,6 +9,7 @@
     "d3": "^5.0.0",
     "lorem-ipsum": "^1.0.4",
     "material-ui": "next",
+    "material-ui-icons": "next",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   },
