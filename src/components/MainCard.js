@@ -34,11 +34,11 @@ class MainCard extends Component {
   state = {
     surveys: [], 
   }
+  
   handleFormSubmit(event, data){
-    console.log("Adding survey")
-    console.log(data)
     this.setState({surveys:[...this.state.surveys, data]})
   }
+  
   render() {
     const { classes } = this.props;
     const bull = <span className={classes.bullet}>•</span>;

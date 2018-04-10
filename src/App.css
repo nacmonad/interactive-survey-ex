@@ -3,3 +3,11 @@
   padding:15px;
   height:100vh;
 }
+
+rect {
+  transition: fill-opacity 750ms ease-in;
+  
+}
+.active {
+  fill-opacity:0.5;
+}
