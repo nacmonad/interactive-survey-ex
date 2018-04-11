@@ -1,11 +1,13 @@
 
 import React, { Component } from 'react';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import { withStyles } from 'material-ui/styles';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
-import GridList, {GridListTile} from 'material-ui/GridList'
 
 import blue from 'material-ui/colors/blue';
 import red from 'material-ui/colors/red';
@@ -34,10 +36,13 @@ class DataViz extends Component {
     zoomed:false,
   }
   componentWillMount() {
-    this.surveys = this.props.surveys;
-    this.radius = 25;
+    this.responses = []
+    console.log("mounting...")
+    console.log(this.props)
   }
   componentDidMount(){
+    this.responses = this.props.responses;
+    this.radius = 25;
     this.width = document.getElementById('data-viz').clientWidth
     this.height = document.getElementById('data-viz').clientHeight
     this.svg = d3.select('#data-viz');
@@ -48,13 +53,16 @@ class DataViz extends Component {
 
     this.svg.on("click", this.resetZoom.bind(this));
 
+    console.log("mounted...")
+    console.log(this.responses)
+    console.log(this.props)
   }
   componentDidUpdate(oldProps){
-    if(JSON.stringify(oldProps.surveys) !== JSON.stringify(this.props.surveys)){
+    if(JSON.stringify(oldProps.responses) !== JSON.stringify(this.props.responses)){
       console.log("let d3 take over!")
 
-      this.surveys = this.props.surveys;
-      this.paths = this.g.data(this.surveys).enter();
+      this.responses = this.props.responses;
+      this.paths = this.g.data(this.responses).enter();
 
       this.simulation = d3.forceSimulation();
       this.simulation
@@ -67,13 +75,13 @@ class DataViz extends Component {
           .strength(10)
           .distanceMin(50)
           .distanceMax(1000))
-        //.force("center", d3.forceCenter(document.getElementById('data-viz').clientWidth / 2, document.getElementById('data-viz').clientHeight / 2));
+          .force("center", d3.forceCenter(document.getElementById('data-viz').clientWidth / 2, document.getElementById('data-viz').clientHeight / 2));
 
 
       this.simulation
-        .nodes(this.surveys)
+        .nodes(this.responses)
         .on("tick", this.ticked.bind(this));
-      
+
       this.simulation.alphaTarget(0)
     }
 
@@ -126,24 +134,24 @@ class DataViz extends Component {
       }
   }
   handleClick(event) {
-    
+
     //zoom to bounding box
     this.clicked(event.target, this.width, this.height)
     //class as active
     this.setState({active:event.target.id})
   }
-  render() {  
+  render() {
     return (
       <svg id="data-viz" style={styles.dataViz}>
         <g id="survey-group">
           {
-            this.surveys.map((e,i)=>{
-              
+            this.responses.map((e,i)=>{
+
               return (
-                <g key={e.id}>
+                <g key={e._id}>
                   <rect
-                    id={e.id}
-                    className={parseInt(e.id) === parseInt(this.state.active) ? "active": ""}
+                    id={e._id}
+                    className={parseInt(e._id) === parseInt(this.state.active) ? "active": ""}
                     x={e.x}
                     y={e.y}
                     width={25}
@@ -152,15 +160,15 @@ class DataViz extends Component {
                     strokeWidth={1}
                     fill={this.genColor(e.group)}
                     onClick={this.handleClick.bind(this)}>
-                    
+
                     </rect>
-                    { ( parseInt(e.id) === parseInt(this.state.active) ) ? 
+                    { ( parseInt(e._id) === parseInt(this.state.active) ) ?
                       ( <foreignObject x="160" y="220" width="450" height="200">
                           <p className="foreign-object">
                             {e.text}
                           </p>
-                        </foreignObject> ) : 
-                      ("") 
+                        </foreignObject> ) :
+                      ("")
                     }
                   </g>
                 )
@@ -172,4 +180,14 @@ class DataViz extends Component {
   }
 }
 
-export default DataViz;
+const mapStateToProps = (state) => {
+  return {
+    responses:state.main.data
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({  }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DataViz);
