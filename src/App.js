@@ -4,22 +4,26 @@ import io from 'socket.io-client';
 import feathers from '@feathersjs/feathers';
 import socketio from '@feathersjs/socketio-client';
 
-/* State */
+/* State & Sagas */
 import { compose, createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
-
-import { RESPONSES_INITIALIZED, RESPONSE_CREATED, RESPONSE_UPDATED, RESPONSE_DELETED } from './actions'
 import reducers from './reducers';
-import postSaga from './sagas'
+import {getResponsesSaga, postSaga} from './sagas'
 
-import { MuiThemeProvider as NewMuiThemeProvider } from 'material-ui/styles';
+/* Actions */
+import {_getInitialResponses, _connectionHandler} from './js/connectionHandler';
+
+/* Material UI */
+import { MuiThemeProvider } from 'material-ui/styles';
 import theme from './theme'
 
-import MainCard from './components/MainCard';
 
+/* Main View & Extra Styles*/
+import MainCard from './components/MainCard';
 import './App.css';
 
+/* Store Creation */
 const sagaMiddleware = createSagaMiddleware()
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -38,48 +42,33 @@ export default class App extends Component {
     try {
       this.socket = io('http://localhost:3030');
       this.client = feathers().configure(socketio(this.socket));
+      _connectionHandler.bind(this);
+      _getInitialResponses.bind(this);
 
     } catch (e) {
       console.log("error connecting")
       throw e
     }
-    this.responseList = []
   }
   componentWillMount() {
     console.log("setting up app event listeners")
-    //let responseList = this.responseList
+    _connectionHandler(this.client);
+    _getInitialResponses(this.client);
 
-    this._getInitialResponses(this.client,this.responseList);
-    //connects socket subcscription events to redux
-    this.client.service('responses').on('created', response => {
-        store.dispatch({type:RESPONSE_CREATED, payload:response})
-      });
-    this.client.service('responses').on('updated', response => {
-        store.dispatch({type:RESPONSE_UPDATED, payload:response})
-      });
-    this.client.service('responses').on('removed', response => {
-        store.dispatch({type:RESPONSE_DELETED, payload:response})
-      });
-
-  }
-
-  async _getInitialResponses(client, responseList) {
-    responseList = await client.service('responses').find();
-    store.dispatch({type:RESPONSES_INITIALIZED, payload:responseList})
   }
 
   render() {
     return (
       <div className="App">
-          <NewMuiThemeProvider theme={theme}>
+          <MuiThemeProvider theme={theme}>
             <Provider store={store}>
               <MainCard/>
             </Provider>
-          </NewMuiThemeProvider>
+          </MuiThemeProvider>
       </div>
     );
   }
-
 }
 
+export const feathersSocket = App.socket;
 export const feathersClient = App.client;
