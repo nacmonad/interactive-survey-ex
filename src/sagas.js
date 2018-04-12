@@ -28,3 +28,23 @@ function* getResponseList(action) {
 export function* getResponsesSaga() {
   yield takeLatest("GET_RESPONSES", getResponseList)
 }
+
+//worker
+function* getQuestionSet(action) {
+  try {
+    console.log("get some dang question sets yo");
+     //const textQuestions = yield call(Api.postResponse, action.payload.userId);
+     //get two questions by text
+
+     //one queston by scale
+
+     yield put({type: "GET_QUESTION_SET_SUCCEEDED", user: "herb"});
+  } catch (e) {
+     yield put({type: "GET_QUESTION_SET_FAILED", message: e.message});
+  }
+}
+
+//listner
+export function* getQuestionSetSaga() {
+  yield takeLatest("GET_QUESTION_SET_REQUESTED", getQuestionSet)
+}

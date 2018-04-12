@@ -9,7 +9,7 @@ import { compose, createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import reducers from './reducers';
-import {getResponsesSaga, postSaga} from './sagas'
+import {getQuestionSetSaga, getResponsesSaga, postSaga} from './sagas'
 
 /* Actions */
 import {_getInitialResponses, _connectionHandler} from './js/connectionHandler';
@@ -34,8 +34,8 @@ export const store = createStore(
   composeEnhancers(applyMiddleware(sagaMiddleware))
 )
 
-sagaMiddleware.run(postSaga)
-
+sagaMiddleware.run(getQuestionSetSaga)
+//sagaMiddleware.run(postSaga)
 export default class App extends Component {
   constructor(){
     super();
@@ -54,6 +54,7 @@ export default class App extends Component {
     console.log("setting up app event listeners")
     _connectionHandler(this.client);
     _getInitialResponses(this.client);
+    store.dispatch({type:"GET_QUESTION_SET_REQUESTED"})
 
   }
 
@@ -70,5 +71,5 @@ export default class App extends Component {
   }
 }
 
-export const feathersSocket = App.socket;
-export const feathersClient = App.client;
+export const socket = App.socket;
+export const client = App.client;

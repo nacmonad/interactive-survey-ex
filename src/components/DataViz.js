@@ -5,9 +5,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { withStyles } from 'material-ui/styles';
-import Card, { CardActions, CardContent } from 'material-ui/Card';
-import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
 
 import blue from 'material-ui/colors/blue';
 import red from 'material-ui/colors/red';
@@ -16,8 +13,6 @@ import orange from 'material-ui/colors/orange';
 import purple from 'material-ui/colors/purple';
 import yellow from 'material-ui/colors/yellow';
 
-import Form from './Form';
-
 import * as d3 from 'd3';
 
 const styles = {
@@ -25,7 +20,6 @@ const styles = {
     height:'100%',
     width:'100%'
   }
-
 };
 
 
@@ -142,40 +136,40 @@ class DataViz extends Component {
   }
   render() {
     return (
-      <svg id="data-viz" style={styles.dataViz}>
-        <g id="survey-group">
-          {
-            this.responses.map((e,i)=>{
+        <svg id="data-viz" style={styles.dataViz}>
+          <g id="survey-group">
+            {
+              this.responses.map((e,i)=>{
 
-              return (
-                <g key={e._id}>
-                  <rect
-                    id={e._id}
-                    className={parseInt(e._id) === parseInt(this.state.active) ? "active": ""}
-                    x={e.x}
-                    y={e.y}
-                    width={25}
-                    height={10}
-                    stroke={'black'}
-                    strokeWidth={1}
-                    fill={this.genColor(e.group)}
-                    onClick={this.handleClick.bind(this)}>
+                return (
+                  <g key={e._id}>
+                    <rect
+                      id={e._id}
+                      className={parseInt(e._id) === parseInt(this.state.active) ? "active": ""}
+                      x={e.x}
+                      y={e.y}
+                      width={25}
+                      height={10}
+                      stroke={'black'}
+                      strokeWidth={1}
+                      fill={this.genColor(e.group)}
+                      onClick={this.handleClick.bind(this)}>
 
-                    </rect>
-                    { ( parseInt(e._id) === parseInt(this.state.active) ) ?
-                      ( <foreignObject x="160" y="220" width="450" height="200">
-                          <p className="foreign-object">
-                            {e.text}
-                          </p>
-                        </foreignObject> ) :
-                      ("")
-                    }
-                  </g>
-                )
-            })
-          }
-        </g>
-      </svg>
+                      </rect>
+                      { ( parseInt(e._id) === parseInt(this.state.active) ) ?
+                        ( <foreignObject x="160" y="220" width="450" height="200">
+                            <p className="foreign-object">
+                              {e.text}
+                            </p>
+                          </foreignObject> ) :
+                        ("")
+                      }
+                    </g>
+                  )
+              })
+            }
+          </g>
+        </svg>
     );
   }
 }

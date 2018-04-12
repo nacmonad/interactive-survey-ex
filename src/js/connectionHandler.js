@@ -2,8 +2,6 @@ import { RESPONSES_INITIALIZED, RESPONSE_CREATED, RESPONSE_UPDATED, RESPONSE_DEL
 
 import {store} from '../App'
 
-console.log(this)
-
 export function _connectionHandler(client) {
   console.log("adding listeners")
   //connects socket subcscription events to redux
@@ -18,14 +16,7 @@ export function _connectionHandler(client) {
     });
 }
 
-export async function _getInitialResponses(client, responseList) {
-  try {
-    let _responseList = await client.service('responses').find();
-    store.dispatch({type:RESPONSES_INITIALIZED, payload:responseList})
-  } catch (e) {
-    console.log(e)
-    store.dispatch({type:RESPONSES_INITIALIZED, payload:[]})
-
-  }
-
+export async function _getInitialResponses(client) {
+  let responseList = await client.service('responses').find();
+  store.dispatch({type:RESPONSES_INITIALIZED, payload:responseList})
 }

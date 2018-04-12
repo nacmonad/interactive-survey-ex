@@ -22,6 +22,10 @@ import yellow from 'material-ui/colors/yellow';
 
 
 const styles = {
+  formWrapper:{
+    minWidth:'400px',
+    maxWidth:'600px'
+  },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
@@ -58,7 +62,7 @@ const styles = {
   }
 };
 
-class Form extends Component {
+class FormViewer extends Component {
   state = {
     checked:
       {
@@ -80,30 +84,30 @@ class Form extends Component {
       checkedF: false,
       [name]: event.target.checked }});
   };
-  
+
   handleAddSurvey = (event) => {
     event.preventDefault();
     console.log("add a survey!")
     const checked = Object.values(this.state.checked).indexOf(true);
     const text = loremIpsum({
-        count: 4                      // Number of words, sentences, or paragraphs to generate. 
-      , units: 'sentences'            // Generate words, sentences, or paragraphs. 
-      , sentenceLowerBound: 5         // Minimum words per sentence. 
-      , sentenceUpperBound: 15        // Maximum words per sentence. 
-      , paragraphLowerBound: 3        // Minimum sentences per paragraph. 
-      , paragraphUpperBound: 7        // Maximum sentences per paragraph. 
-      , format: 'plain'               // Plain text or html 
-      , random: Math.random           // A PRNG function. Uses Math.random by default 
+        count: 4                      // Number of words, sentences, or paragraphs to generate.
+      , units: 'sentences'            // Generate words, sentences, or paragraphs.
+      , sentenceLowerBound: 5         // Minimum words per sentence.
+      , sentenceUpperBound: 15        // Maximum words per sentence.
+      , paragraphLowerBound: 3        // Minimum sentences per paragraph.
+      , paragraphUpperBound: 7        // Maximum sentences per paragraph.
+      , format: 'plain'               // Plain text or html
+      , random: Math.random           // A PRNG function. Uses Math.random by default
     });
 
     if(checked > -1) this.props.handleFormSubmit(event, {
-      id:this.counter++, 
-      group:checked, 
+      id:this.counter++,
+      group:checked,
       text:text,
       x: Math.random()*800,
-      y: Math.random()*600 
+      y: Math.random()*600
     })
-    
+
   }
   componentWillMount() {
     this.counter = 0;
@@ -112,7 +116,7 @@ class Form extends Component {
     const { classes } = this.props;
     const bull = <span className={classes.bullet}>•</span>;
     return (
-      <div>
+      <div className="form-wrapper" style={styles.formWrapper}>
           <Typography className={classes.title} color="textSecondary">
             Choose your
           </Typography>
@@ -122,7 +126,7 @@ class Form extends Component {
           <Typography className={classes.pos} color="textSecondary">
             noun
           </Typography>
-          
+
           <Checkbox
             checked={this.state.checked.checkedA}
             onChange={this.handleChange('checkedA')}
@@ -180,8 +184,4 @@ class Form extends Component {
   }
 }
 
-export default withStyles(styles)(Form);
-
-
-
-
+export default withStyles(styles)(FormViewer);

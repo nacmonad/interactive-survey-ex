@@ -7,6 +7,10 @@ export const POST_RESPONSE = 'POST_RESPONSE';
 export const POST_RESPONSE_SUCCEEDED = 'POST_RESPONSE_SUCCEEDED';
 export const POST_RESPONSE_FAILED = 'POST_RESPONSE_FAILED';
 
+export const GET_QUESTION_SET_REQUESTED = 'GET_QUESTION_SET_REQUESTED';
+export const GET_QUESTION_SET_SUCCEEDED = 'GET_QUESTION_SET_SUCCEEDED';
+export const GET_QUESTION_SET_FAILED = 'GET_QUESTION_SET_FAILED'
+
 export function responsesInitialized(res) {
   return {type:RESPONSES_INITIALIZED, payload:res}
 }
@@ -33,4 +37,16 @@ export function postResponseSucceeded(res) {
 
 export function postResponseFailed(res) {
   return {type:POST_RESPONSE_FAILED, payload:res}
+}
+
+export function getQuestionSet() {
+  return { type:GET_QUESTION_SET_REQUESTED }
+}
+
+export function getQuestionSetSucceeded(res) {
+  return {type:GET_QUESTION_SET_SUCCEEDED, payload:res}
+}
+
+export function getQuestionSetFailed(res) {
+  return {type:GET_QUESTION_SET_FAILED, payload:res}
 }
