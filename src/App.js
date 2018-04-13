@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 
-import io from 'socket.io-client';
-import feathers from '@feathersjs/feathers';
-import socketio from '@feathersjs/socketio-client';
-
 /* State & Sagas */
 import { compose, createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux'
@@ -36,14 +32,15 @@ export const store = createStore(
 
 sagaMiddleware.run(getQuestionSetSaga)
 //sagaMiddleware.run(postSaga)
+
+
 export default class App extends Component {
   constructor(){
     super();
     try {
-      this.socket = io('http://localhost:3030');
-      this.client = feathers().configure(socketio(this.socket));
-      _connectionHandler.bind(this);
-      _getInitialResponses.bind(this);
+      console.log("setting up app event listeners")
+      _connectionHandler();
+      _getInitialResponses();
 
     } catch (e) {
       console.log("error connecting")
@@ -51,9 +48,6 @@ export default class App extends Component {
     }
   }
   componentWillMount() {
-    console.log("setting up app event listeners")
-    _connectionHandler(this.client);
-    _getInitialResponses(this.client);
     store.dispatch({type:"GET_QUESTION_SET_REQUESTED"})
 
   }
@@ -70,6 +64,3 @@ export default class App extends Component {
     );
   }
 }
-
-export const socket = App.socket;
-export const client = App.client;

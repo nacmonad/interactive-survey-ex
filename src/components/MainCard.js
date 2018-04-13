@@ -1,9 +1,6 @@
 
 import React, { Component } from 'react';
 
-import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
-
 import { withStyles } from 'material-ui/styles';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Button from 'material-ui/Button';
@@ -52,13 +49,5 @@ class MainCard extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-      data:state.main.data,
-  }
-}
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({  }, dispatch)
-}
-export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(MainCard));
+export default withStyles(styles)(MainCard);

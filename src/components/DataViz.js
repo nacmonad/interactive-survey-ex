@@ -1,9 +1,6 @@
 
 import React, { Component } from 'react';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
 import { withStyles } from 'material-ui/styles';
 
 import blue from 'material-ui/colors/blue';
@@ -174,14 +171,4 @@ class DataViz extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    responses:state.main.data
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({  }, dispatch)
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DataViz);
+export default DataViz;

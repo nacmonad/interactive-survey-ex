@@ -46,8 +46,9 @@ class ResponseViewer extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return {
-    responses:state.main.data
+    responses:state.main.responseSet.data
   }
 }
 

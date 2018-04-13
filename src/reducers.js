@@ -1,7 +1,14 @@
-import { RESPONSES_INITIALIZED, RESPONSE_CREATED, RESPONSE_UPDATED, RESPONSE_DELETED } from './actions';
+import { RESPONSES_INITIALIZED, RESPONSE_CREATED, RESPONSE_UPDATED, RESPONSE_DELETED, GET_QUESTION_SET_SUCCEEDED } from './actions';
 
 const initialState = {
-  data: []
+  responseSet: {
+    total:0,
+    data:[]
+  },
+  questionSet: {
+    text:[],
+    scale:[]
+  }
 };
 
 export default function main(state, action) {
@@ -10,34 +17,46 @@ export default function main(state, action) {
   }
 
   switch(action.type) {
-    case RESPONSES_INITIALIZED:
-      console.log(action)
+    case GET_QUESTION_SET_SUCCEEDED:
       return {
-        ...action.payload
+        ...state,
+        questionSet:action.payload
+      }
+    case RESPONSES_INITIALIZED:
+      return {
+        ...state,
+        responseSet: {...action.payload}
       }
     case RESPONSE_CREATED:
       console.log(action)
       return {
         ...state,
-        total:state.total +1,
-        data: [...state.data, action.payload]
+        responseSet:{
+          total:state.responseSet.total +1,
+          data: [...state.responseSet.data, action.payload]
+        }
       }
     case RESPONSE_UPDATED:
-      console.log(action)
+        console.log(action)
       return {
       ...state,
-      data:state.data.map(e=>{
-          if(action.payload._id===e._id) return action.payload
-          return e
-        })
-      }
+      responseSet:{
+          ...state.responseSet,
+          data: state.responseSet.data.map(e=>{
+              if(action.payload._id===e._id) return action.payload
+              return e
+            })
+        }
+    }
     case RESPONSE_DELETED:
-      const index = state.data.findIndex(e=>e._id===action.payload._id)
+      const index = state.responseSet.data.findIndex(e=>e._id===action.payload._id)
 
       return {
         ...state,
-        data: [].concat(state.data.slice(0, index), state.data.slice(index+1, state.data.length)),
-        total: state.total -1
+        responseSet:{
+          total: state.responseSet.total - 1,
+          data: [].concat(state.responseSet.data.slice(0, index), state.responseSet.data.slice(index+1, state.responseSet.data.length))
+        }
       }
     default:
       return state;
