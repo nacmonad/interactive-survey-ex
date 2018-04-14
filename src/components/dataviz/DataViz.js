@@ -6,7 +6,7 @@ import * as d3 from 'd3';
 
 const styles = {
   dataViz: {
-    height:'100%',
+    height:'800px',
     width:'100%'
   }
 };
@@ -118,10 +118,15 @@ class DataViz extends Component {
           // .call(zoom.translate(translate).scale(scale).event); // not in d3 v4
           .call( this.zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale) ); // updated for d3 v4
       this.simulation.stop()
+
       setTimeout(()=>{
-        this.setState({textShow:true, textLeft:document.getElementById(d.id).getBoundingClientRect().x, textTop:document.getElementById(d.id).getBoundingClientRect().y })
+        this.setState({textShow:true, textLeft:document.getElementById(d.id).getBoundingClientRect().x, textTop:document.getElementById(d.id).getBoundingClientRect().y + window.scrollY - document.getElementById("form-wrapper").clientHeight})
         //this.forceUpdate();
+
         console.log(document.getElementById(d.id).getBoundingClientRect())
+        console.log(document.getElementById("form-wrapper").clientHeight  )
+        console.log(window.scrollY)
+        console.log(window.innerHeight)
 
       }, 800)
     }

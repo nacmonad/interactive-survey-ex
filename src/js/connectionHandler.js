@@ -22,6 +22,8 @@ export async function _getInitialResponses() {
     store.dispatch({type:RESPONSES_INITIALIZED, payload:responseList})
   } catch (e) {
     console.log(e)
+    console.log("retrying in 10 seconds")
+    setTimeout(_getInitialResponses, 10000);
 
   }
 }

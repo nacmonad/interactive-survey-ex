@@ -39,6 +39,7 @@ class MainCard extends Component {
     console.log("form submit")
   }
   _updateWidth(e) {
+
     if(this.state.mounted) {
       this.setState({width:e.target.innerWidth, formHeight:document.getElementById("form-wrapper").clientHeight})
     }
@@ -52,8 +53,8 @@ class MainCard extends Component {
     this.setState({formHeight:document.getElementById("form-wrapper").clientHeight, mounted:true})
   }
   render() {
-
-    const wrapperStyle = this.state.width > 880 ? {height:'100%', display:'flex', flexDirection:  'row' }: {height:'100%', display:'flex', flexDirection:  'column-reverse', paddingTop:this.state.formHeight + 15}
+    console.log(this.state.formHeight + 15)
+    const wrapperStyle = this.state.width > 880 ? {height:'100%', display:'flex', flexDirection:  'row' }: {height:'100%', display:'flex', flexDirection:  'column-reverse'}
 
     const { classes } = this.props;
     const bull = <span className={classes.bullet}>•</span>;
