@@ -42,6 +42,7 @@ class DataViz extends Component {
 
     this.svg.on("click", this.resetZoom.bind(this));
 
+    this._updateDimensions()
     console.log("mounted...")
     console.log(this.responses)
     console.log(this.props)
@@ -71,9 +72,9 @@ class DataViz extends Component {
           .strength(10)
           .distanceMin(50)
           .distanceMax(1000))
-          .force("center", d3.forceCenter(document.getElementById('data-viz').clientWidth / 2, document.getElementById('data-viz').clientHeight / 2));
+          .force("center", d3.forceCenter(document.getElementById('data-viz').getBoundingClientRect().width/2, document.getElementById('data-viz').getBoundingClientRect().height/2));
 
-
+      console.log(document.getElementById('data-viz').clientWidth)
       this.simulation
         .nodes(this.responses)
         .on("tick", this.ticked.bind(this));
@@ -87,6 +88,7 @@ class DataViz extends Component {
   componentWillUnmount(){
     this.simulation.stop();
   }
+
   ticked() {
 
     if(!this.props.viz.zoomed) this.setState({alpha:this.simulation.alpha()})
@@ -124,7 +126,7 @@ class DataViz extends Component {
       setTimeout(()=>{
         const bb = document.getElementById(d.id).getBoundingClientRect()
         const offsetY = window.innerWidth > 880 ? (document.getElementById("viz-head").clientHeight ): (document.getElementById("viz-head").clientHeight + document.getElementById("form-wrapper").clientHeight )
-
+        console.log(bb)
         this.setState({
           textShow:true,
           textLeft:bb.x,
@@ -138,18 +140,22 @@ class DataViz extends Component {
   handleClick(event) {
     const domObj = document.getElementById('data-viz');
     //zoom to bounding box
-    this.clicked(event.target, domObj.clientWidth, domObj.clientHeight)
+    this.clicked(event.target, domObj.getBoundingClientRect().width, domObj.getBoundingClientRect().height)
     //class as active
     store.dispatch({type:"ZOOMED", payload:{active:event.target.id, zoomed:true}})
   }
   _updateDimensions(e) {
     const domObj = document.getElementById('data-viz');
+    console.log("dom obj: ")
+    console.log()
+    console.log(domObj.clientWidth/2)
     if(this.responses.length > 0) {
       this.simulation
-        .force("center", d3.forceCenter(domObj.clientWidth/2, domObj.clientHeight / 2));
+        .force("center", d3.forceCenter(domObj.getBoundingClientRect().width/2, domObj.getBoundingClientRect().height/2));
       this.simulation.restart()
     }
   }
+
   render() {
     return (
         <svg id="data-viz" style={styles.dataViz}>
@@ -173,8 +179,8 @@ class DataViz extends Component {
 
                       </rect>
                       { (e._id === this.props.viz.active && this.state.textShow) ?
-                        ( <foreignObject fill="pink" x={this.state.textLeft} y={this.state.textBottom} width={this.state.textWidth} height={this.state.textHeight}>
-                            <div className="foreign-object" style={{backgroundColor:"pink", height:'100%', width:'100%', textAlign:'initial', padding:'1em'}}>
+                        ( <foreignObject fill="pink" x={this.state.textLeft-10} y={this.state.textBottom-10} width={this.state.textWidth-10} height={this.state.textHeight-10}>
+                            <div className="foreign-object" style={{backgroundColor:"pink", height:'100%', width:'100%', textAlign:'initial', margin:'5'}}>
                               {e.text}
                             </div>
                           </foreignObject> ) :
