@@ -1,30 +1,34 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {formStepUp, formStepDown} from '../actions';
 
 import { withStyles } from 'material-ui/styles';
-import Card, { CardActions, CardContent } from 'material-ui/Card';
-import Button from 'material-ui/Button';
+
 import Typography from 'material-ui/Typography';
-import GridList, {GridListTile} from 'material-ui/GridList'
+
 import Checkbox from 'material-ui/Checkbox'
 
 import IconButton from 'material-ui/IconButton';
 import Add from 'material-ui-icons/Add';
-import Menu from 'material-ui-icons/Menu';
+
 import loremIpsum from 'lorem-ipsum'
 
+import SwipeableViews from 'react-swipeable-views';
 
-import blue from 'material-ui/colors/blue';
-import red from 'material-ui/colors/red';
-import green from 'material-ui/colors/green';
-import orange from 'material-ui/colors/orange';
-import purple from 'material-ui/colors/purple';
-import yellow from 'material-ui/colors/yellow';
+import Stepper from './form/Stepper';
+import colourGenerator from '../js/colourGenerator'
+import StepZero from './form/StepZero';
+import StepOne from './form/StepOne';
+import StepTwo from './form/StepTwo';
+import StepThree from './form/StepThree';
+import StepFour from './form/StepFour';
 
 
 const styles = {
   formWrapper:{
-    minWidth:'400px',
-    maxWidth:'600px'
+    //minWidth:'400px',
+    paddingBottom:'25px'
   },
   bullet: {
     display: 'inline-block',
@@ -38,53 +42,15 @@ const styles = {
   pos: {
     marginBottom: 12,
   },
-  checkedA: {
-    color: blue[500],
-  },
-  checkedB: {
-    color: red[500],
-  },
-  checkedC: {
-    color: green[500],
-  },
-  checkedD: {
-    color: purple[500],
-  },
-  checkedE: {
-    color: orange[500],
-  },
-  checkedF: {
-    color: yellow[500],
-  },
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
   }
 };
 
-class FormViewer extends Component {
-  state = {
-    checked:
-      {
-      checkedA: false,
-      checkedB: false,
-      checkedC: false,
-      checkedD: false,
-      checkedE: false,
-      checkedF: false,
-    }
-  }
-  handleChange = name => event => {
-    this.setState({ checked: {
-      checkedA: false,
-      checkedB: false,
-      checkedC: false,
-      checkedD: false,
-      checkedE: false,
-      checkedF: false,
-      [name]: event.target.checked }});
-  };
 
+
+class FormViewer extends Component {
   handleAddSurvey = (event) => {
     event.preventDefault();
     console.log("add a survey!")
@@ -101,7 +67,7 @@ class FormViewer extends Component {
     });
 
     if(checked > -1) this.props.handleFormSubmit(event, {
-      id:this.counter++,
+      id:1,
       group:checked,
       text:text,
       x: Math.random()*800,
@@ -109,79 +75,47 @@ class FormViewer extends Component {
     })
 
   }
-  componentWillMount() {
-    this.counter = 0;
+
+  handleChangeIndex = (e) =>{
+    if(e > this.props.form.step) this.props.formStepUp();
+    if(e < this.props.form.step) this.props.formStepDown();
   }
+
   render() {
     const { classes } = this.props;
     const bull = <span className={classes.bullet}>•</span>;
     return (
-      <div className="form-wrapper" style={styles.formWrapper}>
-          <Typography className={classes.title} color="textSecondary">
-            Choose your
-          </Typography>
-          <Typography variant="headline" component="h2">
-            pro{bull}fess{bull}ion
-          </Typography>
-          <Typography className={classes.pos} color="textSecondary">
-            noun
-          </Typography>
+      <div id="form-wrapper" style={styles.formWrapper}>
 
-          <Checkbox
-            checked={this.state.checked.checkedA}
-            onChange={this.handleChange('checkedA')}
-            classes={{
-                checked: classes.checkedA,
-              }}
-            value="checkedA"
-          />
-          <Checkbox
-            checked={this.state.checked.checkedB}
-            onChange={this.handleChange('checkedB')}
-            classes={{
-                checked: classes.checkedB,
-              }}
-            value="checkedB"
-          />
-          <Checkbox
-            checked={this.state.checked.checkedC}
-            onChange={this.handleChange('checkedC')}
-            classes={{
-                checked: classes.checkedC,
-              }}
-            value="checkedB"
-          />
-          <Checkbox
-            checked={this.state.checked.checkedD}
-            onChange={this.handleChange('checkedD')}
-            classes={{
-                checked: classes.checkedD,
-              }}
-            value="checkedB"
-          />
-          <Checkbox
-            checked={this.state.checked.checkedE}
-            onChange={this.handleChange('checkedE')}
-            classes={{
-                checked: classes.checkedE,
-              }}
-            value="checkedE"
-          />
-          <Checkbox
-            checked={this.state.checked.checkedF}
-            onChange={this.handleChange('checkedF')}
-            classes={{
-                checked: classes.checkedF,
-              }}
-            value="checkedF"
-          />
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={this.handleAddSurvey.bind(this)}>
-              <Add/>
-          </IconButton>
+          <SwipeableViews
+            enableMouseEvents
+            index={this.props.form.step}
+            disabled={this.props.form.step === 4}
+            onChangeIndex={this.handleChangeIndex}>
+              <StepZero/>
+              <StepOne/>
+              <StepTwo/>
+              <StepThree/>
+              <StepFour/>
+          </SwipeableViews>
+          <Stepper
+            activeStep={this.props.form.step}
+            stepUp={this.props.formStepUp}
+            stepDown={this.props.formStepDown}/>
       </div>
 
     );
   }
 }
 
-export default withStyles(styles)(FormViewer);
+const mapStateToProps = (state) => {
+  return {
+    form: state.main.form
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({formStepUp, formStepDown }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(FormViewer));

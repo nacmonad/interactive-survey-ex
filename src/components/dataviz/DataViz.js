@@ -1,15 +1,7 @@
-
 import React, { Component } from 'react';
 
-import { withStyles } from 'material-ui/styles';
-
-import blue from 'material-ui/colors/blue';
-import red from 'material-ui/colors/red';
-import green from 'material-ui/colors/green';
-import orange from 'material-ui/colors/orange';
-import purple from 'material-ui/colors/purple';
-import yellow from 'material-ui/colors/yellow';
-
+import {store} from '../../App.js'
+import colourGenerator from '../../js/colourGenerator'
 import * as d3 from 'd3';
 
 const styles = {
@@ -25,8 +17,12 @@ class DataViz extends Component {
     alpha:0,
     active:-1,
     zoomed:false,
+    textShow:false,
+    textLeft:0,
+    textTop:0
   }
   componentWillMount() {
+    window.addEventListener("resize", this._updateDimensions.bind(this));
     this.responses = []
     console.log("mounting...")
     console.log(this.props)
@@ -47,6 +43,13 @@ class DataViz extends Component {
     console.log("mounted...")
     console.log(this.responses)
     console.log(this.props)
+  }
+  shouldComponentUpdate(newProps) {
+    if(this.state.textShow) {
+      //block updates like text edits, or new rect entries
+      return false;
+    }
+    return true;
   }
   componentDidUpdate(oldProps){
     if(JSON.stringify(oldProps.responses) !== JSON.stringify(this.props.responses)){
@@ -78,58 +81,64 @@ class DataViz extends Component {
 
 
   }
-  ticked() {
-    this.setState({alpha:this.simulation.alpha()})
-  }
-  clicked(d, w, h) {
-      var dx = parseFloat(d.width.baseVal.value),
-          dy = parseFloat(d.height.baseVal.value),
-          x = d.x.baseVal.value + dx / 2,
-          y = d.y.baseVal.value-dy/8,
-          scale = 3*Math.max(1, Math.min(8, 0.9 / Math.max(dx / w, dy / h))),
-          translate = [w / 2 - scale * x, h / 2  / 2 - scale * y];
 
-      this.svg.transition()
-          .duration(750)
-          // .call(zoom.translate(translate).scale(scale).event); // not in d3 v4
-          .call( this.zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale) ); // updated for d3 v4
-      this.setState({zoomed:true})
-    }
+  componentWillUnmount(){
+    this.simulation.stop();
+  }
+  ticked() {
+
+    if(!this.props.viz.zoomed) this.setState({alpha:this.simulation.alpha()})
+
+  }
+
   zoomed() {
       d3.selectAll('rect').style("stroke-width", 1.5 / d3.event.transform.k + "px");
       d3.selectAll('rect').attr("transform", d3.event.transform); // updated for d3 v4
   }
   resetZoom() {
-    this.setState({active:-1, zoomed:false})
+
     this.svg.transition()
         .duration(750)
         .call( this.zoom.transform, d3.zoomIdentity ); // updated for d3 v4
 
+    store.dispatch({type:"ZOOMED", payload:{active:-1, zoomed:false}})
+    this.setState({textShow:false})
+    this.simulation.restart()
   }
-  genColor(group) {
-    switch(group){
-        case 0:
-          return blue[500]
-        case 1:
-          return red[500]
-        case 2:
-          return green[500]
-        case 3:
-          return purple[500]
-        case 4:
-          return orange[500]
-        case 5  :
-          return yellow[500]
-        default:
-          return 'pink'
-      }
-  }
-  handleClick(event) {
+  clicked(d, w, h) {
+      var scalar = window.innerWidth < 880 ? 1.5 : 3
+      var dx = parseFloat(d.width.baseVal.value),
+          dy = parseFloat(d.height.baseVal.value),
+          x = d.x.baseVal.value + dx / 2,
+          y = d.y.baseVal.value-dy/8,
+          scale = scalar*Math.max(1, Math.min(8, 0.9 / Math.max(dx / w, dy / h))),
+          translate = [w / 2 - scale * x, h / 2  / 2 - scale * y];
+      this.svg.transition()
+          .duration(750)
+          // .call(zoom.translate(translate).scale(scale).event); // not in d3 v4
+          .call( this.zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale) ); // updated for d3 v4
+      this.simulation.stop()
+      setTimeout(()=>{
+        this.setState({textShow:true, textLeft:document.getElementById(d.id).getBoundingClientRect().x, textTop:document.getElementById(d.id).getBoundingClientRect().y })
+        //this.forceUpdate();
+        console.log(document.getElementById(d.id).getBoundingClientRect())
 
+      }, 800)
+    }
+  handleClick(event) {
+    const domObj = document.getElementById('data-viz');
     //zoom to bounding box
-    this.clicked(event.target, this.width, this.height)
+    this.clicked(event.target, domObj.clientWidth, domObj.clientHeight)
     //class as active
-    this.setState({active:event.target.id})
+    store.dispatch({type:"ZOOMED", payload:{active:event.target.id, zoomed:true}})
+  }
+  _updateDimensions(e) {
+    const domObj = document.getElementById('data-viz');
+    if(this.responses.length > 0) {
+      this.simulation
+        .force("center", d3.forceCenter(domObj.clientWidth/2, domObj.clientHeight / 2));
+      this.simulation.restart()
+    }
   }
   render() {
     return (
@@ -142,22 +151,22 @@ class DataViz extends Component {
                   <g key={e._id}>
                     <rect
                       id={e._id}
-                      className={parseInt(e._id) === parseInt(this.state.active) ? "active": ""}
+                      className={e._id === this.props.viz.active ? "active": ""}
                       x={e.x}
                       y={e.y}
                       width={25}
                       height={10}
                       stroke={'black'}
                       strokeWidth={1}
-                      fill={this.genColor(e.group)}
+                      fill={colourGenerator(e.group)}
                       onClick={this.handleClick.bind(this)}>
 
                       </rect>
-                      { ( parseInt(e._id) === parseInt(this.state.active) ) ?
-                        ( <foreignObject x="160" y="220" width="450" height="200">
-                            <p className="foreign-object">
+                      { (e._id === this.props.viz.active && this.state.textShow) ?
+                        ( <foreignObject fill="pink" x={this.state.textLeft} y={this.state.textTop} width="600" height="240">
+                            <div className="foreign-object" style={{height:'100%', width:'100%', textAlign:'initial', padding:'1em'}}>
                               {e.text}
-                            </p>
+                            </div>
                           </foreignObject> ) :
                         ("")
                       }

@@ -1,4 +1,4 @@
-import { RESPONSES_INITIALIZED, RESPONSE_CREATED, RESPONSE_UPDATED, RESPONSE_DELETED, GET_QUESTION_SET_SUCCEEDED } from './actions';
+import { ZOOMED, RESPONSES_INITIALIZED, RESPONSE_CREATED, RESPONSE_UPDATED, RESPONSE_DELETED, GET_QUESTION_SET_SUCCEEDED, FORM_STEP_UP, FORM_STEP_DOWN } from './actions';
 
 const initialState = {
   responseSet: {
@@ -8,6 +8,13 @@ const initialState = {
   questionSet: {
     text:[],
     scale:[]
+  },
+  form: {
+    step:0,
+  },
+  viz:{
+    active:-1,
+    zoomed:false
   }
 };
 
@@ -17,6 +24,29 @@ export default function main(state, action) {
   }
 
   switch(action.type) {
+    case FORM_STEP_UP:
+      console.log(action)
+      console.log(state)
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          step:state.form.step+1
+        }
+      }
+    case FORM_STEP_DOWN:
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          step:state.form.step-1
+        }
+      }
+    case ZOOMED:
+      return {
+        ...state,
+        viz:action.payload
+      }
     case GET_QUESTION_SET_SUCCEEDED:
       return {
         ...state,
@@ -29,6 +59,8 @@ export default function main(state, action) {
       }
     case RESPONSE_CREATED:
       console.log(action)
+      action.payload.x = 800*Math.random()
+      action.payload.y = 600*Math.random()
       return {
         ...state,
         responseSet:{

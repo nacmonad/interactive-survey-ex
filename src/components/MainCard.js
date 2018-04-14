@@ -25,26 +25,45 @@ const styles = {
     width: '100%',
   },
   card: {
-    minWidth: 275,
     height:'100%'
   }
 };
 
 class MainCard extends Component {
-
-  _handleFormSubmit(event, data){
-    this.setState({surveys:[...this.state.surveys, data]})
+  state = {
+    width: window.innerWidth,
+    formHeight: 250,
+    mounted:false
   }
+  _handleFormSubmit(event, data){
+    console.log("form submit")
+  }
+  _updateWidth(e) {
+    if(this.state.mounted) {
+      this.setState({width:e.target.innerWidth, formHeight:document.getElementById("form-wrapper").clientHeight})
+    }
 
+
+  }
+  componentWillMount() {
+    window.addEventListener('resize', this._updateWidth.bind(this))
+  }
+  componentDidMount(){
+    this.setState({formHeight:document.getElementById("form-wrapper").clientHeight, mounted:true})
+  }
   render() {
+
+    const wrapperStyle = this.state.width > 880 ? {height:'100%', display:'flex', flexDirection:  'row' }: {height:'100%', display:'flex', flexDirection:  'column-reverse', paddingTop:this.state.formHeight + 15}
+
     const { classes } = this.props;
     const bull = <span className={classes.bullet}>•</span>;
+
     return (
-      <Card className={classes.card}>
-        <CardContent style={{height:'100%', display:'flex', flexDrection:'row', }}>
+      <Card style={wrapperStyle}>
+
           <ResponseViewer/>
-          <FormViewer handleFormSubmit={this._handleFormSubmit.bind(this)}/>
-        </CardContent>
+          <FormViewer handleFormSubmit={this._handleFormSubmit.bind(this)} />
+
       </Card>
     );
   }

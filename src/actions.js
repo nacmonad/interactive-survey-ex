@@ -11,6 +11,11 @@ export const GET_QUESTION_SET_REQUESTED = 'GET_QUESTION_SET_REQUESTED';
 export const GET_QUESTION_SET_SUCCEEDED = 'GET_QUESTION_SET_SUCCEEDED';
 export const GET_QUESTION_SET_FAILED = 'GET_QUESTION_SET_FAILED'
 
+export const ZOOMED = 'ZOOMED'
+
+export const FORM_STEP_UP = 'FORM_STEP_UP';
+export const FORM_STEP_DOWN = 'FORM_STEP_DOWN';
+
 export function responsesInitialized(res) {
   return {type:RESPONSES_INITIALIZED, payload:res}
 }
@@ -49,4 +54,12 @@ export function getQuestionSetSucceeded(res) {
 
 export function getQuestionSetFailed(res) {
   return {type:GET_QUESTION_SET_FAILED, payload:res}
+}
+
+export function formStepUp() {
+  return {type:FORM_STEP_UP}
+}
+
+export function formStepDown() {
+  return {type:FORM_STEP_DOWN}
 }
