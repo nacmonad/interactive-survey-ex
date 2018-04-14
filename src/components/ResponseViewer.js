@@ -23,7 +23,7 @@ class ResponseViewer extends Component {
     return (
 
       <div className="viz-wrap" style={styles.vizWrap}>
-        <Typography variant="headline" component="h2">
+        <Typography id="viz-head" variant="headline" component="h2">
           vis{bull}ual{bull}i{bull}za{bull}tion
         </Typography>
         <DataViz responses = {this.props.responses} viz = {this.props.viz}/>

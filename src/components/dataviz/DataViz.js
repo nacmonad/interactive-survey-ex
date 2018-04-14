@@ -19,7 +19,9 @@ class DataViz extends Component {
     zoomed:false,
     textShow:false,
     textLeft:0,
-    textTop:0
+    textTop:0,
+    textWidth:0,
+    textHeight:0
   }
   componentWillMount() {
     window.addEventListener("resize", this._updateDimensions.bind(this));
@@ -120,13 +122,16 @@ class DataViz extends Component {
       this.simulation.stop()
 
       setTimeout(()=>{
-        this.setState({textShow:true, textLeft:document.getElementById(d.id).getBoundingClientRect().x, textTop:document.getElementById(d.id).getBoundingClientRect().y + window.scrollY - document.getElementById("form-wrapper").clientHeight})
-        //this.forceUpdate();
+        const bb = document.getElementById(d.id).getBoundingClientRect()
+        const offsetY = window.innerWidth > 880 ? (document.getElementById("viz-head").clientHeight ): (document.getElementById("viz-head").clientHeight + document.getElementById("form-wrapper").clientHeight )
 
-        console.log(document.getElementById(d.id).getBoundingClientRect())
-        console.log(document.getElementById("form-wrapper").clientHeight  )
-        console.log(window.scrollY)
-        console.log(window.innerHeight)
+        this.setState({
+          textShow:true,
+          textLeft:bb.x,
+          textBottom:bb.y + window.scrollY - offsetY,
+          textWidth:bb.width,
+          textHeight:bb.height
+        })
 
       }, 800)
     }
@@ -168,8 +173,8 @@ class DataViz extends Component {
 
                       </rect>
                       { (e._id === this.props.viz.active && this.state.textShow) ?
-                        ( <foreignObject fill="pink" x={this.state.textLeft} y={this.state.textTop} width="600" height="240">
-                            <div className="foreign-object" style={{height:'100%', width:'100%', textAlign:'initial', padding:'1em'}}>
+                        ( <foreignObject fill="pink" x={this.state.textLeft} y={this.state.textBottom} width={this.state.textWidth} height={this.state.textHeight}>
+                            <div className="foreign-object" style={{backgroundColor:"pink", height:'100%', width:'100%', textAlign:'initial', padding:'1em'}}>
                               {e.text}
                             </div>
                           </foreignObject> ) :
