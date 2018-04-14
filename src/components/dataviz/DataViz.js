@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import {store} from '../../App.js'
-import colourGenerator from '../../js/colourGenerator'
+import {colourGenerator} from '../../js/colourGenerator'
 import * as d3 from 'd3';
 
 const styles = {
@@ -73,7 +73,6 @@ class DataViz extends Component {
           .distanceMin(50)
           .distanceMax(1000))
           .force("center", d3.forceCenter(document.getElementById('data-viz').getBoundingClientRect().width/2, document.getElementById('data-viz').getBoundingClientRect().height/2));
-
       console.log(document.getElementById('data-viz').clientWidth)
       this.simulation
         .nodes(this.responses)
@@ -126,7 +125,7 @@ class DataViz extends Component {
       setTimeout(()=>{
         const bb = document.getElementById(d.id).getBoundingClientRect()
         const offsetY = window.innerWidth > 880 ? (document.getElementById("viz-head").clientHeight ): (document.getElementById("viz-head").clientHeight + document.getElementById("form-wrapper").clientHeight )
-        console.log(bb)
+
         this.setState({
           textShow:true,
           textLeft:bb.x,
@@ -146,9 +145,7 @@ class DataViz extends Component {
   }
   _updateDimensions(e) {
     const domObj = document.getElementById('data-viz');
-    console.log("dom obj: ")
-    console.log()
-    console.log(domObj.clientWidth/2)
+
     if(this.responses.length > 0) {
       this.simulation
         .force("center", d3.forceCenter(domObj.getBoundingClientRect().width/2, domObj.getBoundingClientRect().height/2));

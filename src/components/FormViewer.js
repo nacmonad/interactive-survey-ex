@@ -100,7 +100,9 @@ class FormViewer extends Component {
           </SwipeableViews>
           <Stepper
             activeStep={this.props.form.step}
-            stepUp={this.props.formStepUp}
+            stepUp={()=>{
+
+              this.props.formStepUp()}}
             stepDown={this.props.formStepDown}/>
       </div>
 

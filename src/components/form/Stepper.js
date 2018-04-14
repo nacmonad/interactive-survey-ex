@@ -6,19 +6,22 @@ import Button from 'material-ui/Button';
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft';
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight';
 
+import { convertToRgba, colourGenerator } from '../../js/colourGenerator';
+
 const styles = {
   root: {
     maxWidth: "100%",
     flexGrow: 1,
     justifyContent:'space-around'
   },
-  progress:{
-    backgroundColor:'pink'
+  barColorPrimary: {
+    color: colourGenerator(1)
   }
 };
 
 class Stepper extends React.Component {
   handleNext = () => {
+  
     this.props.stepUp();
   };
 
@@ -31,6 +34,7 @@ class Stepper extends React.Component {
 
     return (
       <MobileStepper
+        id="form-stepper"
         variant="progress"
         steps={4}
         position="static"

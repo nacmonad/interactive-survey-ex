@@ -53,9 +53,7 @@ class MainCard extends Component {
     this.setState({formHeight:document.getElementById("form-wrapper").clientHeight, mounted:true})
   }
   render() {
-    console.log(this.state.formHeight + 15)
     const wrapperStyle = this.state.width > 880 ? {height:'100%', display:'flex', flexDirection:  'row' }: {height:'100%', display:'flex', flexDirection:  'column-reverse'}
-
     const { classes } = this.props;
     const bull = <span className={classes.bullet}>•</span>;
 
