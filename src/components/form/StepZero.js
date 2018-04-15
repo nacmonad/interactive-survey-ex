@@ -18,12 +18,25 @@ const styles = {
 class StepZero extends Component {
   state = {
     checked: Array(11).fill(false),
-  }
+    professions: ['Nursing',
+    'Physician or Psychiatrist',
+    'Other Health Professionals (Pharmacy, Social Work, Therapeutics, Diagnostics)',
+    'Clinical Support Services',
+    'Corporate Support Services',
+    'Building Services, Materials Management, Logistics, Security',
+    'Research',
+    'Supervisors, Managers, Directors and Leadership Team',
+    'Volunteers',
+    'Patients and Visitors',
+    'Third Party Staff : Tim Hortons, Honeywell, Aramark'],
+
+    }
   handleChange = (i,event) => {
       event.stopPropagation();
       let newChecked = Array(11).fill(false);
       newChecked[i] = !newChecked[i];
 
+      this.props.formSetGroup(i)
       this.setState({ checked: newChecked});
     };
   componentDidUpdate() {
@@ -36,7 +49,7 @@ class StepZero extends Component {
 
   render() {
     const { classes } = this.props;
-    const bull = <span className={classes.bullet}>•</span>;
+
 
     return (
       <div>
@@ -44,7 +57,7 @@ class StepZero extends Component {
           Choose your
         </Typography>
         <Typography variant="headline" component="h2">
-          pro{bull}fess{bull}ion
+          profession
         </Typography>
         <List>
           {this.state.checked.map((e,i)=>{
@@ -56,7 +69,7 @@ class StepZero extends Component {
                           onChange={this.handleChange.bind(this,i)}
                           style={{color:colourGenerator(i+1)}}
                           value={`checked-${i}`}
-                      /></ListItem>
+                      />{this.state.professions[i]}</ListItem>
 
                     )
                     })}

@@ -15,6 +15,16 @@ export const ZOOMED = 'ZOOMED'
 
 export const FORM_STEP_UP = 'FORM_STEP_UP';
 export const FORM_STEP_DOWN = 'FORM_STEP_DOWN';
+export const FORM_SET_GROUP = 'FORM_SET_GROUP';
+
+export const UPDATE_RESPONSE_SET = 'UPDATE_RESPONSE_SET';
+
+export function updateResponseSet(responseSet) {
+  return {type:UPDATE_RESPONSE_SET, payload:responseSet}
+}
+export function formSetGroup(group) {
+  return {type:FORM_SET_GROUP, payload:group}
+}
 
 export function responsesInitialized(res) {
   return {type:RESPONSES_INITIALIZED, payload:res}

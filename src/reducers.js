@@ -1,4 +1,13 @@
-import { ZOOMED, RESPONSES_INITIALIZED, RESPONSE_CREATED, RESPONSE_UPDATED, RESPONSE_DELETED, GET_QUESTION_SET_SUCCEEDED, FORM_STEP_UP, FORM_STEP_DOWN } from './actions';
+import { ZOOMED,
+  RESPONSES_INITIALIZED,
+  RESPONSE_CREATED,
+  RESPONSE_UPDATED,
+  RESPONSE_DELETED,
+  GET_QUESTION_SET_SUCCEEDED,
+  FORM_STEP_UP,
+  FORM_STEP_DOWN,
+  FORM_SET_GROUP,
+  UPDATE_RESPONSE_SET} from './actions';
 
 const initialState = {
   responseSet: {
@@ -6,11 +15,30 @@ const initialState = {
     data:[]
   },
   questionSet: {
-    text:[],
-    scale:[]
+    text:{
+      data:[{},{}]
+    },
+    scale:{
+      data:[{}]
+    }
   },
   form: {
+    group:-1,
     step:0,
+    questionOne:{
+      text:""
+    },
+    questionTwo:{
+      text:""
+    },
+    questionThree:{
+      text:"",
+      scaleA: 0.5,
+      scaleB: 0.5,
+      scaleC: 0.5,
+      scaleD: 0.5
+    }
+
   },
   viz:{
     active:-1,
@@ -24,6 +52,54 @@ export default function main(state, action) {
   }
 
   switch(action.type) {
+    case UPDATE_RESPONSE_SET:
+      console.log(action.payload)
+      switch(action.payload.question) {
+        case 1:
+          return {
+            ...state,
+            form:{
+              ...state.form,
+              questionOne:{
+                text:action.payload.text
+              }
+            }
+          }
+        case 2:
+        return {
+          ...state,
+          form:{
+            ...state.form,
+            questionTwo:{
+              text:action.payload.text
+            }
+          }
+        }
+        case 3:
+          return {
+            ...state,
+            form:{
+              ...state.form,
+
+            }
+          }
+
+        default:
+          return {
+            ...state,
+
+          }
+      }
+
+    case FORM_SET_GROUP:
+      console.log(action.payload)
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          group:action.payload
+        }
+      }
     case FORM_STEP_UP:
       console.log(action)
       console.log(state)
