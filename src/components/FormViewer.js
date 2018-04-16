@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {formStepUp, formStepDown, formSetGroup, updateResponseSet} from '../actions';
+import {formStepUp, formStepDown, formSetGroup, hideForm, updateResponseSet, toggleDisableSlider} from '../actions';
 
 import { withStyles } from 'material-ui/styles';
 
@@ -23,6 +23,7 @@ import StepOne from './form/StepOne';
 import StepTwo from './form/StepTwo';
 import StepThree from './form/StepThree';
 import StepFour from './form/StepFour';
+
 
 
 const styles = {
@@ -84,23 +85,36 @@ class FormViewer extends Component {
   render() {
     const { classes } = this.props;
     const bull = <span className={classes.bullet}>•</span>;
-    console.log(this.props)
+
     return (
       <div id="form-wrapper" style={styles.formWrapper}>
 
           <SwipeableViews
             enableMouseEvents
             index={this.props.form.step}
-            disabled={this.props.form.step === 4}
+            disabled={
+              this.props.form.disableSlider ||
+              this.props.form.step === 0 && this.props.form.group < 0 ||
+              this.props.form.step === 1 && this.props.form.questionOne.text === "" ||
+              this.props.form.step === 2 && this.props.form.questionTwo.text === "" ||
+              this.props.form.step >= 3
+            }
+
             onChangeIndex={this.handleChangeIndex}>
-              <StepZero updateResponseSet={this.props.updateResponseSet.bind(this)} formSetGroup={this.props.formSetGroup.bind(this)} responseSet={this.props.responseSet} form={this.props.form}/>
-              <StepOne updateResponseSet={this.props.updateResponseSet.bind(this)} question={this.props.questionSet.text.data[0]} responseSet={this.props.responseSet} form={this.props.form}/>
-              <StepTwo updateResponseSet={this.props.updateResponseSet.bind(this)} question={this.props.questionSet.text.data[1]} responseSet={this.props.responseSet} form={this.props.form}/>
-              <StepThree updateResponseSet={this.props.updateResponseSet.bind(this)} question={this.props.questionSet.scale.data[0]} responseSet={this.props.responseSet} form={this.props.form}/>
-              <StepFour/>
+              <StepZero updateResponseSet={this.props.updateResponseSet.bind(this)} formSetGroup={this.props.formSetGroup.bind(this)} form={this.props.form}/>
+              <StepOne updateResponseSet={this.props.updateResponseSet.bind(this)} question={this.props.questionSet.text.data[0]} form={this.props.form}/>
+              <StepTwo updateResponseSet={this.props.updateResponseSet.bind(this)} question={this.props.questionSet.text.data[1]} form={this.props.form}/>
+              <StepThree
+                enableMouseEvents
+                question={this.props.questionSet.scale.data[0]}
+                updateResponseSet={this.props.updateResponseSet.bind(this)}
+                form={this.props.form}
+                toggleDisableSlider={this.props.toggleDisableSlider.bind(this)}
+                />
+              <StepFour group ={this.props.form.group} hideForm= {this.props.hideForm}/>
           </SwipeableViews>
           <Stepper
-            responseSet={this.props.responseSet}
+            form={this.props.form}
             activeStep={this.props.form.step}
             stepUp={()=>{
               this.props.formStepUp()}}
@@ -115,12 +129,13 @@ const mapStateToProps = (state) => {
   return {
     questionSet: state.main.questionSet,
     form: state.main.form,
-    responseSet: state.main.responseSet
+    responseSet: state.main.responseSet,
+    showForm: state.main.showForm
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({formStepUp, formStepDown, formSetGroup, updateResponseSet }, dispatch)
+  return bindActionCreators({formStepUp, formStepDown, formSetGroup, updateResponseSet, toggleDisableSlider, hideForm }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(FormViewer));

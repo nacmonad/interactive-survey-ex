@@ -18,7 +18,15 @@ export const FORM_STEP_DOWN = 'FORM_STEP_DOWN';
 export const FORM_SET_GROUP = 'FORM_SET_GROUP';
 
 export const UPDATE_RESPONSE_SET = 'UPDATE_RESPONSE_SET';
+export const TOGGLE_DISABLE_SLIDER = 'TOGGLE_DISABLE_SLIDER';
+export const HIDE_FORM = 'HIDE_FORM'
 
+export function hideForm() {
+  return {type: HIDE_FORM};
+}
+export function toggleDisableSlider() {
+  return { type:TOGGLE_DISABLE_SLIDER }
+}
 export function updateResponseSet(responseSet) {
   return {type:UPDATE_RESPONSE_SET, payload:responseSet}
 }

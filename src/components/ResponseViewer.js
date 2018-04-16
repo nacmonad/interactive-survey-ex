@@ -26,7 +26,7 @@ class ResponseViewer extends Component {
         <Typography id="viz-head" variant="headline" component="h2">
           vis{bull}ual{bull}i{bull}za{bull}tion
         </Typography>
-        <DataViz responses = {this.props.responses} viz = {this.props.viz}/>
+        <DataViz responses = {this.props.responses} viz = {this.props.viz} showForm = {this.props.showForm}/>
       </div>
     );
   }
@@ -35,7 +35,8 @@ class ResponseViewer extends Component {
 const mapStateToProps = (state) => {
   return {
     responses:state.main.responseSet.data,
-    viz:state.main.viz
+    viz:state.main.viz,
+    showForm:state.main.showForm
   }
 }
 

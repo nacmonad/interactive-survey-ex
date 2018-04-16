@@ -1,5 +1,7 @@
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { withStyles } from 'material-ui/styles';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
@@ -61,11 +63,22 @@ class MainCard extends Component {
       <Card style={wrapperStyle}>
 
           <ResponseViewer/>
-          <FormViewer handleFormSubmit={this._handleFormSubmit.bind(this)} />
+
+          {this.props.showForm &&  <FormViewer handleFormSubmit={this._handleFormSubmit.bind(this)} />}
 
       </Card>
     );
   }
 }
 
-export default withStyles(styles)(MainCard);
+const mapStateToProps = (state) => {
+  return {
+    showForm: state.main.showForm
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MainCard));

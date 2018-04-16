@@ -43,6 +43,13 @@ class StepZero extends Component {
     if(this.state.checked.indexOf(true) > -1) {
       console.log("setting progress bar style")
       document.getElementById('form-stepper').getElementsByTagName('div')[0].childNodes[0].style.backgroundColor =convertToRgba(colourGenerator(this.state.checked.indexOf(true)+1), 1)
+      Array.from(document.getElementsByClassName('input-range__track--active')).map(e=>{
+        e.style.backgroundColor = convertToRgba(colourGenerator(this.state.checked.indexOf(true)+1), 0.8)
+      })
+    Array.from(document.getElementsByClassName('input-range__slider')).map(e=>{
+      e.style.backgroundColor = convertToRgba(colourGenerator(this.state.checked.indexOf(true)+1), 1)
+      e.style.border = `1px solid ${convertToRgba(colourGenerator(this.state.checked.indexOf(true)+1), 1)}`
+    })
     }
     //= convertToRgba(colourGenerator(this.state.checked.indexOf(true)+1), 1)
   }

@@ -45,7 +45,7 @@ class StepTwo extends Component {
           value={this.props.form.questionTwo.text}
           onChange={this._handleChange.bind(this)}
           className={classes.textField}
-          margin="normal"
+          margin="none"
           style={{width:'70%'}}
         />
 

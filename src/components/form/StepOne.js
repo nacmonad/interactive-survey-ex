@@ -5,10 +5,18 @@ import TextField from 'material-ui/TextField';
 import Input from 'material-ui/Input';
 import Typography from 'material-ui/Typography';
 
+import {store} from '../../App'
 import Checkbox from 'material-ui/Checkbox'
-import colourGenerator from '../../js/colourGenerator'
+import {colourGenerator} from '../../js/colourGenerator'
 
-const styles = {
+// const withStylesProps = styles =>
+//   Component =>
+//     props => {
+//       const Comp = withStyles(theme => styles({...props, theme}))(Component);
+//       return <Comp {...props} />;
+//     };
+
+let styles = theme => ({
   title: {
     marginBottom: 16,
     fontSize: 14,
@@ -16,21 +24,29 @@ const styles = {
   pos: {
     marginBottom: 12,
   },
-}
+  // underline:{
+  //   '&:after': {
+  //      backgroundColor: colourGenerator(4),
+  //    },
+  //   }
+})
+
+
 class StepOne extends Component {
   state = {
     text: ""
   }
 
   _handleChange(e) {
-    console.log(e.target.value)
-    console.log(this.props.form.questionOne.text)
     this.props.updateResponseSet({question:1, text:e.target.value})
   }
+
   render() {
-    console.log(this.props)
+
     const { classes } = this.props;
     const bull = <span className={classes.bullet}>•</span>;
+
+
     return (
       <div style={{width:'100%', overflow:'hidden'}}>
         <Typography className={classes.title} color="textSecondary">
@@ -45,9 +61,10 @@ class StepOne extends Component {
           multiline
           value={this.props.form.questionOne.text}
           className={classes.textField}
-          margin="normal"
+          margin="none"
           style={{width:'70%'}}
           onChange={this._handleChange.bind(this)}
+          
         />
 
       </div>

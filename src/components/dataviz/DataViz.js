@@ -30,7 +30,7 @@ class DataViz extends Component {
     console.log(this.props)
   }
   componentDidMount(){
-    this.responses = this.props.responses;
+    this.responses = this.props.responses.filter(e=>e.questionType==='text');
     this.radius = 25;
     this.width = document.getElementById('data-viz').clientWidth
     this.height = document.getElementById('data-viz').clientHeight
@@ -41,6 +41,19 @@ class DataViz extends Component {
       .on("zoom", this.zoomed);
 
     this.svg.on("click", this.resetZoom.bind(this));
+
+    this.simulation = d3.forceSimulation();
+    this.simulation
+      .force("collide", d3.forceCollide()
+        .strength(0.8)
+        .radius(this.radius)
+        .iterations(1)
+      )
+      .force("charge", d3.forceManyBody()
+        .strength(10)
+        .distanceMin(50)
+        .distanceMax(1000))
+      .force("center", d3.forceCenter(document.getElementById('data-viz').getBoundingClientRect().width/2, document.getElementById('data-viz').getBoundingClientRect().height/2));
 
     this._updateDimensions()
     console.log("mounted...")
@@ -54,31 +67,25 @@ class DataViz extends Component {
     }
     return true;
   }
+
   componentDidUpdate(oldProps){
     if(JSON.stringify(oldProps.responses) !== JSON.stringify(this.props.responses)){
       console.log("let d3 take over!")
 
-      this.responses = this.props.responses;
-      this.paths = this.g.data(this.responses).enter();
+      this.responses = this.props.responses.filter(e=>e.questionType==='text');
+      this.paths = this.g.data(this.responses);
+      this.paths.enter().merge(this.paths);
 
-      this.simulation = d3.forceSimulation();
-      this.simulation
-        .force("collide", d3.forceCollide()
-          .strength(0.8)
-          .radius(this.radius)
-          .iterations(1)
-        )
-        .force("charge", d3.forceManyBody()
-          .strength(10)
-          .distanceMin(50)
-          .distanceMax(1000))
-          .force("center", d3.forceCenter(document.getElementById('data-viz').getBoundingClientRect().width/2, document.getElementById('data-viz').getBoundingClientRect().height/2));
-      console.log(document.getElementById('data-viz').clientWidth)
       this.simulation
         .nodes(this.responses)
         .on("tick", this.ticked.bind(this));
 
-      this.simulation.alphaTarget(0)
+      this.simulation.alpha(1).restart();
+
+    }
+    if(oldProps.showForm !== this.props.showForm) {
+      console.log("form exited!")
+      this._updateDimensions();
     }
 
 
@@ -122,19 +129,24 @@ class DataViz extends Component {
           .call( this.zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale) ); // updated for d3 v4
       this.simulation.stop()
 
-      setTimeout(()=>{
-        const bb = document.getElementById(d.id).getBoundingClientRect()
-        const offsetY = window.innerWidth > 880 ? (document.getElementById("viz-head").clientHeight ): (document.getElementById("viz-head").clientHeight + document.getElementById("form-wrapper").clientHeight )
 
-        this.setState({
-          textShow:true,
-          textLeft:bb.x,
-          textBottom:bb.y + window.scrollY - offsetY,
-          textWidth:bb.width,
-          textHeight:bb.height
-        })
+      setTimeout(()=>this.afterTimeout(d), 800)
+    }
 
-      }, 800)
+    afterTimeout(d) {
+      const bb = document.getElementById(d.id).getBoundingClientRect()
+
+      let offsetY = 32.5;
+      if(this.props.showForm) {
+        offsetY = window.innerWidth > 880 ? (document.getElementById("viz-head").clientHeight ): (document.getElementById("viz-head").clientHeight + document.getElementById("form-wrapper").clientHeight )
+      }
+      this.setState({
+        textShow:true,
+        textLeft:bb.x,
+        textBottom:bb.y + window.scrollY - offsetY,
+        textWidth:bb.width,
+        textHeight:bb.height
+      })
     }
   handleClick(event) {
     const domObj = document.getElementById('data-viz');
@@ -149,7 +161,7 @@ class DataViz extends Component {
     if(this.responses.length > 0) {
       this.simulation
         .force("center", d3.forceCenter(domObj.getBoundingClientRect().width/2, domObj.getBoundingClientRect().height/2));
-      this.simulation.restart()
+      this.simulation.alpha(1).restart()
     }
   }
 

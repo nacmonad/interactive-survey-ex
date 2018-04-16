@@ -21,7 +21,10 @@ const styles = {
 
 class Stepper extends React.Component {
   handleNext = () => {
-  
+    console.log(this.props.activeStep)
+    if(this.props.activeStep > 1) {
+      console.log("Post : " + this.props.activeStep);
+    }
     this.props.stepUp();
   };
 
@@ -43,13 +46,19 @@ class Stepper extends React.Component {
         className={classes.root}
         color="secondary"
         nextButton={
-          <Button size="small" onClick={this.handleNext} disabled={this.props.activeStep === 4}>
+          <Button size="small" onClick={this.handleNext}
+          disabled={
+            this.props.activeStep === 4 ||
+            this.props.form.step === 0 && this.props.form.group < 0 ||
+            this.props.form.step === 1 && this.props.form.questionOne.text === "" ||
+            this.props.form.step === 2 && this.props.form.questionTwo.text === ""
+            }>
             {this.props.activeStep > 2 ? "Submit" : "Next"}
             {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
           </Button>
         }
         backButton={
-          <Button size="small" onClick={this.handleBack} disabled={this.props.activeStep === 0 || this.props.activeStep === 4 }>
+          <Button size="small" onClick={this.handleBack} disabled={ true || this.props.activeStep === 0 || this.props.activeStep === 4 }>
             {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
             Back
           </Button>

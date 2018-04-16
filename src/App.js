@@ -5,7 +5,7 @@ import { compose, createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import reducers from './reducers';
-import {getQuestionSetSaga, getResponsesSaga, postSaga} from './sagas'
+import {getQuestionSetSaga, formStepSaga, postSaga} from './sagas'
 
 /* Actions */
 import {_getInitialResponses, _connectionHandler} from './js/connectionHandler';
@@ -31,7 +31,8 @@ export const store = createStore(
 )
 
 sagaMiddleware.run(getQuestionSetSaga)
-//sagaMiddleware.run(postSaga)
+sagaMiddleware.run(formStepSaga)
+sagaMiddleware.run(postSaga)
 
 
 export default class App extends Component {

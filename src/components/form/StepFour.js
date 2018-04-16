@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import { withStyles } from 'material-ui/styles';
 
 import Typography from 'material-ui/Typography';
-
+import Button from 'material-ui/Button';
 import Checkbox from 'material-ui/Checkbox'
-import colourGenerator from '../../js/colourGenerator'
+import {colourGenerator} from '../../js/colourGenerator'
 
 const styles = {
   title: {
@@ -18,15 +18,17 @@ const styles = {
 class StepThree extends Component {
 
   render() {
-    const { classes } = this.props;
+
 
     return (
-      <div>
+      <div style={{height:'100%',display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
 
         <Typography variant="headline" component="h2">
           THANKS!
         </Typography>
-
+        <Button variant="raised" style={{ width:'280px' }} onClick={this.props.hideForm}>
+         Hide Form
+        </Button>
       </div>
 
     )

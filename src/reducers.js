@@ -7,7 +7,9 @@ import { ZOOMED,
   FORM_STEP_UP,
   FORM_STEP_DOWN,
   FORM_SET_GROUP,
-  UPDATE_RESPONSE_SET} from './actions';
+  UPDATE_RESPONSE_SET,
+  TOGGLE_DISABLE_SLIDER,
+  HIDE_FORM} from './actions';
 
 const initialState = {
   responseSet: {
@@ -22,9 +24,11 @@ const initialState = {
       data:[{}]
     }
   },
+  showForm:true,
   form: {
     group:-1,
     step:0,
+    disableSlider:false,
     questionOne:{
       text:""
     },
@@ -32,12 +36,11 @@ const initialState = {
       text:""
     },
     questionThree:{
-      text:"",
-      scaleA: 0.5,
-      scaleB: 0.5,
-      scaleC: 0.5,
-      scaleD: 0.5
-    }
+      scaleA: 50,
+      scaleB: 50,
+      scaleC: 50,
+      scaleD: 50
+    },
 
   },
   viz:{
@@ -52,6 +55,19 @@ export default function main(state, action) {
   }
 
   switch(action.type) {
+    case HIDE_FORM:
+      return {
+        ...state,
+        showForm:false
+      }
+    case TOGGLE_DISABLE_SLIDER:
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          disableSlider: !state.form.disableSlider
+        }
+      }
     case UPDATE_RESPONSE_SET:
       console.log(action.payload)
       switch(action.payload.question) {
@@ -76,10 +92,15 @@ export default function main(state, action) {
           }
         }
         case 3:
+          console.log("update scales")
+          console.log(action)
           return {
             ...state,
             form:{
               ...state.form,
+            questionThree:{
+              ...action.payload.scales
+              }
 
             }
           }
@@ -101,8 +122,6 @@ export default function main(state, action) {
         }
       }
     case FORM_STEP_UP:
-      console.log(action)
-      console.log(state)
       return {
         ...state,
         form: {
