@@ -32,15 +32,17 @@ const styles = {
 };
 
 class MainCard extends Component {
-  state = {
-    width: window.innerWidth,
-    formHeight: 250,
-    mounted:false,
 
+  constructor(){
+    super()
+    this.state = {
+        width: window.innerWidth,
+        formHeight: 250,
+        mounted:false,
+      }
+    this._updateWidth = this._updateWidth.bind(this)
   }
-  _handleFormSubmit(event, data){
-    console.log("form submit")
-  }
+
   _updateWidth(e) {
 
     if(this.state.mounted ) {
@@ -59,7 +61,7 @@ class MainCard extends Component {
 
 
   componentWillMount() {
-    window.addEventListener('resize', this._updateWidth.bind(this))
+    window.addEventListener('resize', this._updateWidth)
   }
   componentDidMount(){
     this.setState({formHeight:document.getElementById("form-wrapper").clientHeight, mounted:true})
@@ -72,10 +74,12 @@ class MainCard extends Component {
     return (
       <Card style={wrapperStyle}>
           <ResponseViewer/>
-          {this.props.showForm &&  <FormViewer handleFormSubmit={this._handleFormSubmit.bind(this)} />}
-
+          {this.props.showForm &&  <FormViewer/>}
       </Card>
     );
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._updateDimensions);
   }
 }
 

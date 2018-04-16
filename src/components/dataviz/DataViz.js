@@ -156,7 +156,7 @@ class DataViz extends Component {
     afterTimeout(d) {
       const bb = document.getElementById(d.id).getBoundingClientRect()
 
-      let offsetY = 32.5;
+      let offsetY = document.getElementById("viz-head").clientHeight;
       if(this.props.showForm) {
         offsetY = window.innerWidth > 880 ? (document.getElementById("viz-head").clientHeight ): (document.getElementById("viz-head").clientHeight + document.getElementById("form-wrapper").clientHeight )
       }

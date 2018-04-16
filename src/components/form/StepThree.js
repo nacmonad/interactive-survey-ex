@@ -22,7 +22,7 @@ const styles = {
     marginBottom: 12,
   },
   rangeWrapper:
-    {display:'flex', alignItems:'center', height:'28px', width:'100%',  position:'relative', marginTop:'0.75em' }
+    {display:'flex', alignItems:'center', height:'28px', width:'70%',  position:'relative', marginTop:'0.75em' }
   ,
   label:{
     display:'block',
@@ -54,7 +54,7 @@ class StepThree extends Component {
         <Typography variant="headline" component="h2">
           innovation efforts
         </Typography>
-        <FormGroup style={{display:'flex', flexDirection:'column', height:'100%', justifyContent:'space-evenly'}}>
+        <FormGroup style={{display:'flex', flexDirection:'column', height:'100%', justifyContent:'space-evenly',alignItems:'center'}}>
           <div className="range-wrapper"
            style={styles.rangeWrapper}
            onMouseDown={this._handleMouseDown.bind(this)}

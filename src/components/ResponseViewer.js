@@ -37,7 +37,8 @@ class ResponseViewer extends Component {
     const {classes} = this.props
     return (
       <div style={{width:'100%'}}>
-        <Typography id="viz-head" variant="headline" component="h2">
+      <div id="viz-head">
+        <Typography variant="headline" component="h2">
           response visualization
         </Typography>
         <Tabs
@@ -50,10 +51,11 @@ class ResponseViewer extends Component {
           }}
             fullWidth
           >
-          <Tab label="Question One" />
-          <Tab label="Question Two" />
-          <Tab label="Question Three" />
+          <Tab label="One" />
+          <Tab label="Two" />
+          <Tab label="Three" />
         </Tabs>
+        </div>
         <div className="viz-wrap" style={styles.vizWrap}>
           {this.props.activeTab < 2 && <DataViz questionId = {this.props.activeTab+1} responses = {this.props.responses} viz = {this.props.viz} showForm = {this.props.showForm}/>}
           {this.props.activeTab === 2 && <DataVizTwo questionId = {this.props.activeTab+1} responses = {this.props.responses} viz = {this.props.viz} showForm = {this.props.showForm}/>}

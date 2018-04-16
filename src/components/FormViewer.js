@@ -28,7 +28,7 @@ import StepFour from './form/StepFour';
 
 const styles = {
   formWrapper:{
-    maxWidth:'660px',
+    maxWidth:'460px',
     paddingBottom:'25px'
   },
   bullet: {
