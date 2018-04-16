@@ -23,14 +23,18 @@ class DataViz extends Component {
     textWidth:0,
     textHeight:0
   }
+  constructor() {
+    super()
+    this._updateDimensions = this._updateDimensions.bind(this)
+  }
   componentWillMount() {
-    window.addEventListener("resize", this._updateDimensions.bind(this));
+    window.addEventListener("resize", this._updateDimensions);
     this.responses = []
     console.log("mounting...")
     console.log(this.props)
   }
   componentDidMount(){
-    this.responses = this.props.responses.filter(e=>e.questionType==='text');
+    this.responses = this.props.responses.filter(e=>e.questionId===this.props.questionId);
     this.radius = 25;
     this.width = document.getElementById('data-viz').clientWidth
     this.height = document.getElementById('data-viz').clientHeight
@@ -55,10 +59,18 @@ class DataViz extends Component {
         .distanceMax(1000))
       .force("center", d3.forceCenter(document.getElementById('data-viz').getBoundingClientRect().width/2, document.getElementById('data-viz').getBoundingClientRect().height/2));
 
+      this.paths = this.g.data(this.responses);
+      this.paths.enter().merge(this.paths);
+
+      this.simulation
+        .nodes(this.responses)
+        .on("tick", this.ticked.bind(this));
+
     this._updateDimensions()
     console.log("mounted...")
     console.log(this.responses)
     console.log(this.props)
+
   }
   shouldComponentUpdate(newProps) {
     if(this.state.textShow) {
@@ -69,10 +81,11 @@ class DataViz extends Component {
   }
 
   componentDidUpdate(oldProps){
-    if(JSON.stringify(oldProps.responses) !== JSON.stringify(this.props.responses)){
+    if(JSON.stringify(oldProps.responses) !== JSON.stringify(this.props.responses) ||
+      oldProps.questionId !== this.props.questionId){
       console.log("let d3 take over!")
 
-      this.responses = this.props.responses.filter(e=>e.questionType==='text');
+      this.responses = this.props.responses.filter(e=>e.questionId===this.props.questionId);
       this.paths = this.g.data(this.responses);
       this.paths.enter().merge(this.paths);
 
@@ -87,12 +100,19 @@ class DataViz extends Component {
       console.log("form exited!")
       this._updateDimensions();
     }
+    // if(oldProps.questionId !== this.props.questionId) {
+    //   console.log("new question id")
+    //   store.dispatch({type:"ZOOMED", payload:{active:-1, zoomed:false}})
+    //   this.simulation.restart()
+    // }
 
 
   }
 
   componentWillUnmount(){
     this.simulation.stop();
+    window.removeEventListener('resize', this._updateDimensions);
+
   }
 
   ticked() {
@@ -111,8 +131,8 @@ class DataViz extends Component {
         .duration(750)
         .call( this.zoom.transform, d3.zoomIdentity ); // updated for d3 v4
 
-    store.dispatch({type:"ZOOMED", payload:{active:-1, zoomed:false}})
     this.setState({textShow:false})
+    store.dispatch({type:"ZOOMED", payload:{active:-1, zoomed:false}})
     this.simulation.restart()
   }
   clicked(d, w, h) {

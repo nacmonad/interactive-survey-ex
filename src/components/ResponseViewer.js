@@ -3,30 +3,61 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+
+import { withStyles } from 'material-ui/styles';
+import Tabs, { Tab } from 'material-ui/Tabs';
 import Typography from 'material-ui/Typography';
 
 import DataViz from './dataviz/DataViz';
+import DataVizTwo from './dataviz/DataVizTwo';
+
+import {setActiveTab} from '../actions'
 
 const styles = {
   vizWrap:{
     height:'100%',
     width:'100%',
+  },
+  flexContainer:{
+    justifyContent:'space-around'
   }
 };
 
 const bull = <span className="bullet">•</span>;
 
 class ResponseViewer extends Component {
+  handleChange = (event, value) => {
+    this.props.setActiveTab(value)
+  };
 
+  handleChangeIndex = index => {
+    this.props.setActiveTab(index)
+  };
   render() {
-
+    const {classes} = this.props
     return (
-
-      <div className="viz-wrap" style={styles.vizWrap}>
+      <div style={{width:'100%'}}>
         <Typography id="viz-head" variant="headline" component="h2">
-          vis{bull}ual{bull}i{bull}za{bull}tion
+          response visualization
         </Typography>
-        <DataViz responses = {this.props.responses} viz = {this.props.viz} showForm = {this.props.showForm}/>
+        <Tabs
+          value={this.props.activeTab}
+          onChange={this.handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          classes={{
+            flexContainer:classes.flexContainer
+          }}
+            fullWidth
+          >
+          <Tab label="Question One" />
+          <Tab label="Question Two" />
+          <Tab label="Question Three" />
+        </Tabs>
+        <div className="viz-wrap" style={styles.vizWrap}>
+          {this.props.activeTab < 2 && <DataViz questionId = {this.props.activeTab+1} responses = {this.props.responses} viz = {this.props.viz} showForm = {this.props.showForm}/>}
+          {this.props.activeTab === 2 && <DataVizTwo questionId = {this.props.activeTab+1} responses = {this.props.responses} viz = {this.props.viz} showForm = {this.props.showForm}/>}
+        </div>
       </div>
     );
   }
@@ -36,12 +67,13 @@ const mapStateToProps = (state) => {
   return {
     responses:state.main.responseSet.data,
     viz:state.main.viz,
-    showForm:state.main.showForm
+    showForm:state.main.showForm,
+    activeTab:state.main.activeTab
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({  }, dispatch)
+  return bindActionCreators({ setActiveTab }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResponseViewer);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ResponseViewer));

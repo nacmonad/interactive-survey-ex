@@ -35,19 +35,29 @@ class MainCard extends Component {
   state = {
     width: window.innerWidth,
     formHeight: 250,
-    mounted:false
+    mounted:false,
+
   }
   _handleFormSubmit(event, data){
     console.log("form submit")
   }
   _updateWidth(e) {
 
-    if(this.state.mounted) {
-      this.setState({width:e.target.innerWidth, formHeight:document.getElementById("form-wrapper").clientHeight})
+    if(this.state.mounted ) {
+      if(this.props.showForm) {
+        this.setState({width:e.target.innerWidth, formHeight:document.getElementById("form-wrapper").clientHeight})
+      } else {
+        this.setState({width:e.target.innerWidth, formHeight:0})
+      }
+
     }
 
 
   }
+
+
+
+
   componentWillMount() {
     window.addEventListener('resize', this._updateWidth.bind(this))
   }
@@ -61,9 +71,7 @@ class MainCard extends Component {
 
     return (
       <Card style={wrapperStyle}>
-
           <ResponseViewer/>
-
           {this.props.showForm &&  <FormViewer handleFormSubmit={this._handleFormSubmit.bind(this)} />}
 
       </Card>

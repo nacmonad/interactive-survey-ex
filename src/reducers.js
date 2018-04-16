@@ -9,7 +9,8 @@ import { ZOOMED,
   FORM_SET_GROUP,
   UPDATE_RESPONSE_SET,
   TOGGLE_DISABLE_SLIDER,
-  HIDE_FORM} from './actions';
+  HIDE_FORM,
+  SET_ACTIVE_TAB} from './actions';
 
 const initialState = {
   responseSet: {
@@ -24,6 +25,7 @@ const initialState = {
       data:[{}]
     }
   },
+  activeTab:0,
   showForm:true,
   form: {
     group:-1,
@@ -41,7 +43,6 @@ const initialState = {
       scaleC: 50,
       scaleD: 50
     },
-
   },
   viz:{
     active:-1,
@@ -55,6 +56,11 @@ export default function main(state, action) {
   }
 
   switch(action.type) {
+    case SET_ACTIVE_TAB:
+      return {
+        ...state,
+        activeTab:action.payload
+      }
     case HIDE_FORM:
       return {
         ...state,
