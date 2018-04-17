@@ -48,9 +48,9 @@ class ResponseViewer extends Component {
           }}
             fullWidth
           >
-          <Tab label="COMPASSIONATE CARE" style={{maxWidth:'110px'}}/>
-          <Tab label="INSPIRED PEOPLE" style={{maxWidth:'110px'}}/>
-          <Tab label="SUCCESSFUL INNOVATION" style={{maxWidth:'110px'}}/>
+          <Tab label="COMPASSION" style={{maxWidth:'110px'}}/>
+          <Tab label="INSPIRATION" style={{maxWidth:'110px'}}/>
+          <Tab label="INNOVATION" style={{maxWidth:'110px'}}/>
         </Tabs>
         </div>
         <div className="viz-wrap" style={styles.vizWrap}>

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import { closeDialog } from '../actions'
 import { withStyles } from 'material-ui/styles';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Button from 'material-ui/Button';
@@ -11,6 +12,7 @@ import GridList, {GridListTile} from 'material-ui/GridList'
 
 import FormViewer from './FormViewer';
 import ResponseViewer from './ResponseViewer';
+import IntroDialog from './IntroDialog';
 
 const styles = {
   root: {
@@ -44,7 +46,8 @@ class MainCard extends Component {
   }
 
   _updateWidth(e) {
-
+    console.log("update width")
+    console.log(e)
     if(this.state.mounted ) {
       if(this.props.showForm) {
         this.setState({width:e.target.innerWidth, formHeight:document.getElementById("form-wrapper").clientHeight})
@@ -67,14 +70,15 @@ class MainCard extends Component {
     this.setState({formHeight:document.getElementById("form-wrapper").clientHeight, mounted:true})
   }
   render() {
-    const wrapperStyle = this.state.width > 880 ? {height:'100%', display:'flex', flexDirection:  'row' }: {height:'100%', display:'flex', flexDirection:  'column-reverse'}
-    const { classes } = this.props;
-    const bull = <span className={classes.bullet}>•</span>;
+    const wrapperStyle = this.state.width > 880 ? {height:'100%', display:'flex', flexDirection:  'row' , justifyContent:'flex-end'}
+        : {height:'100%', display:'flex', flexDirection:  'column-reverse', alignItems:'center'}
+
 
     return (
       <Card style={wrapperStyle}>
-          <ResponseViewer/>
+          {!this.props.showIntroDialog && <ResponseViewer/>}
           {this.props.showForm &&  <FormViewer/>}
+          {this.props.showIntroDialog && <IntroDialog open={this.props.showIntroDialog} closeDialog={this.props.closeDialog}/>}
       </Card>
     );
   }
@@ -85,12 +89,13 @@ class MainCard extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    showForm: state.main.showForm
+    showForm: state.main.showForm,
+    showIntroDialog: state.main.showIntroDialog
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ }, dispatch)
+  return bindActionCreators({ closeDialog }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MainCard));

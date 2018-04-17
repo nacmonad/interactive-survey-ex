@@ -22,6 +22,11 @@ export const TOGGLE_DISABLE_SLIDER = 'TOGGLE_DISABLE_SLIDER';
 export const HIDE_FORM = 'HIDE_FORM'
 
 export const SET_ACTIVE_TAB = 'SET_ACTIVE_TAB'
+export const CLOSE_DIALOG = 'CLOSE_DIALOG';
+
+export function closeDialog() {
+  return {type:CLOSE_DIALOG }
+}
 
 export function setActiveTab(tabIndex){
   return {type:SET_ACTIVE_TAB, payload:tabIndex}

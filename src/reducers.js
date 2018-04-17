@@ -10,7 +10,8 @@ import { ZOOMED,
   UPDATE_RESPONSE_SET,
   TOGGLE_DISABLE_SLIDER,
   HIDE_FORM,
-  SET_ACTIVE_TAB} from './actions';
+  SET_ACTIVE_TAB,
+  CLOSE_DIALOG } from './actions';
 
 const initialState = {
   responseSet: {
@@ -26,6 +27,7 @@ const initialState = {
     }
   },
   activeTab:0,
+  showIntroDialog: true,
   showForm:true,
   form: {
     group:-1,
@@ -56,6 +58,11 @@ export default function main(state, action) {
   }
 
   switch(action.type) {
+    case CLOSE_DIALOG:
+      return {
+        ...state,
+        showIntroDialog:false
+      }
     case SET_ACTIVE_TAB:
       return {
         ...state,

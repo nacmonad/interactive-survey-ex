@@ -35,7 +35,7 @@ export const textColourGenerator = function (group) {
     case 2:
       return "white";
     case 3:
-      return "white";
+      return "black";
     case 4:
       return "white";
     case 5:

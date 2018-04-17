@@ -41,11 +41,11 @@ class DataVizTwo extends Component {
   }
   _getXScale() {
     const HEIGHT = 800
-    const WIDTH = document.getElementById('data-viz').clientWidth;
+    const WIDTH = document.getElementById('data-viz').getBoundingClientRect().width;
     const xMax = 100;
     let marginLeft = 120
     let marginRight = 120
-    if(window.innerWidth < 880) {
+    if(window.innerWidth < 1185) {
       marginLeft = 27.5
       marginRight = 27.5
     }
@@ -56,7 +56,7 @@ class DataVizTwo extends Component {
   }
   _getYScale() {
     const HEIGHT = 800
-    const WIDTH = document.getElementById('data-viz').clientWidth;
+    const WIDTH = document.getElementById('data-viz').getBoundingClientRect().width;
     const marginBottom = 150
     const marginTop = 150
     const yMax = 1;
@@ -85,6 +85,8 @@ class DataVizTwo extends Component {
     })
     console.log("updating dims!")
     console.log(this.state)
+    console.log(canvasBB)
+    console.log(textOffsets)
     //this.forceUpdate();
   }
   componentWillMount() {
@@ -96,8 +98,8 @@ class DataVizTwo extends Component {
   componentDidMount(){
     this.responses = this.props.responses.filter(e=>e.questionId===this.props.questionId);
 
-    this.width = document.getElementById('data-viz').clientWidth
-    this.height = document.getElementById('data-viz').clientHeight
+    this.width = document.getElementById('data-viz').getBoundingClientRect().width
+    this.height = document.getElementById('data-viz').getBoundingClientRect().height
 
     this.svg = d3.select('#data-viz');
     this.g = d3.select('#survey-group');
@@ -198,10 +200,10 @@ class DataVizTwo extends Component {
 
           </g>
         </svg>
-        <div className="scale-text" style={{position:'absolute', top: this._positionTextY(0), marginLeft:'1em', marginRight:'1em'}}>{this.props.questionThree.scaleA}</div>
-        <div className="scale-text" style={{position:'absolute', top: this._positionTextY(1), marginLeft:'1em', marginRight:'1em'}}>{this.props.questionThree.scaleB}</div>
-        <div className="scale-text" style={{position:'absolute', top: this._positionTextY(2), marginLeft:'1em', marginRight:'1em'}}>{this.props.questionThree.scaleC}</div>
-        <div className="scale-text" style={{position:'absolute', top: this._positionTextY(3), marginLeft:'1em', marginRight:'1em'}}>{this.props.questionThree.scaleD}</div>
+        <div className="scale-text" style={{fontSize:'18px', position:'absolute', top: this._positionTextY(0), left:this.state.textA,  marginLeft:'1em', marginRight:'1em'}}>{this.props.questionThree.scaleA}</div>
+        <div className="scale-text" style={{fontSize:'18px', position:'absolute', top: this._positionTextY(1), left:this.state.textB, marginLeft:'1em', marginRight:'1em'}}>{this.props.questionThree.scaleB}</div>
+        <div className="scale-text" style={{fontSize:'18px', position:'absolute', top: this._positionTextY(2), left:this.state.textC, marginLeft:'1em', marginRight:'1em'}}>{this.props.questionThree.scaleC}</div>
+        <div className="scale-text" style={{fontSize:'18px', position:'absolute', top: this._positionTextY(3), left:this.state.textD, marginLeft:'1em', marginRight:'1em'}}>{this.props.questionThree.scaleD}</div>
       </div>
     );
   }

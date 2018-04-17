@@ -12,6 +12,7 @@ const styles = {
     width:'100%'
   }
 };
+const STROKE_WIDTH = 0.5;
 
 
 class DataViz extends Component {
@@ -33,13 +34,13 @@ class DataViz extends Component {
     window.addEventListener("resize", this._updateDimensions);
     this.responses = []
     console.log("mounting...")
-    console.log(this.props)
+
   }
   componentDidMount(){
     this.responses = this.props.responses.filter(e=>e.questionId===this.props.questionId);
     this.radius = 25;
-    this.width = document.getElementById('data-viz').clientWidth
-    this.height = document.getElementById('data-viz').clientHeight
+    this.width = document.getElementById('data-viz').getBoundingClientRect().width
+    this.height = styles.dataViz.height;
     this.svg = d3.select('#data-viz');
     this.g = d3.select('#survey-group');
     this.zoom = d3.zoom()
@@ -68,10 +69,12 @@ class DataViz extends Component {
         .nodes(this.responses)
         .on("tick", this.ticked.bind(this));
 
-    this._updateDimensions()
+
     console.log("mounted...")
     console.log(this.responses)
     console.log(this.props)
+    //this.timeout = setTimeout(this._updateDimensions, 100);
+    
 
   }
   shouldComponentUpdate(newProps) {
@@ -125,7 +128,7 @@ class DataViz extends Component {
   }
 
   zoomed() {
-      d3.selectAll('rect').style("stroke-width", 1.5 / d3.event.transform.k + "px");
+      d3.selectAll('rect').style("stroke-width", STROKE_WIDTH / d3.event.transform.k + "px");
       d3.selectAll('rect').attr("transform", d3.event.transform); // updated for d3 v4
   }
   resetZoom() {
@@ -180,7 +183,9 @@ class DataViz extends Component {
   }
   _updateDimensions(e) {
     const domObj = document.getElementById('data-viz');
-
+    console.log("update dims")
+    console.log(domObj.clientWidth)
+    console.log(document.getElementsByClassName('viz-wrap')[0].getBoundingClientRect().width)
     if(this.responses.length > 0) {
       this.simulation
         .force("center", d3.forceCenter(domObj.getBoundingClientRect().width/2, domObj.getBoundingClientRect().height/2));
@@ -194,7 +199,6 @@ class DataViz extends Component {
           <g id="survey-group">
             {
               this.responses.map((e,i)=>{
-                console.log()
                 return (
                   <g key={e._id}>
                     <rect
@@ -205,7 +209,7 @@ class DataViz extends Component {
                       width={25}
                       height={18}
                       stroke={'black'}
-                      strokeWidth={0.5}
+                      strokeWidth={STROKE_WIDTH}
                       rx={2}
                       ry={2}
                       fill={colourGenerator(e.group)}

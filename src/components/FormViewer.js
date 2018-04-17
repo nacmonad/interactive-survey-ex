@@ -28,8 +28,10 @@ import StepFour from './form/StepFour';
 
 const styles = {
   formWrapper:{
-    maxWidth:'460px',
-    paddingBottom:'25px'
+    width:'100%',
+    maxWidth:'660px',
+    paddingTop:'1.5rem',
+    paddingBottom:'1.5rem'
   },
   bullet: {
     display: 'inline-block',
@@ -92,6 +94,7 @@ class FormViewer extends Component {
           <SwipeableViews
             enableMouseEvents
             index={this.props.form.step}
+            style={{maxWidth:'660px'}}
             disabled={
               this.props.form.disableSlider ||
               this.props.form.step === 0 && this.props.form.group < 0 ||
