@@ -58,7 +58,7 @@ class ResponseViewer extends Component {
         </div>
         <div className="viz-wrap" style={styles.vizWrap}>
           {this.props.activeTab < 2 && <DataViz questionId = {this.props.activeTab+1} responses = {this.props.responses} viz = {this.props.viz} showForm = {this.props.showForm}/>}
-          {this.props.activeTab === 2 && <DataVizTwo questionId = {this.props.activeTab+1} responses = {this.props.responses} viz = {this.props.viz} showForm = {this.props.showForm}/>}
+          {this.props.activeTab === 2 && <DataVizTwo questionId = {this.props.activeTab+1} questionThree = {this.props.questionThree} responses = {this.props.responses} viz = {this.props.viz} showForm = {this.props.showForm}/>}
         </div>
       </div>
     );
@@ -70,7 +70,8 @@ const mapStateToProps = (state) => {
     responses:state.main.responseSet.data,
     viz:state.main.viz,
     showForm:state.main.showForm,
-    activeTab:state.main.activeTab
+    activeTab:state.main.activeTab,
+    questionThree:state.main.questionSet.scale.data[0]
   }
 }
 

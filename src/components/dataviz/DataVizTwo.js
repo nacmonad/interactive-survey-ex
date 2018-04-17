@@ -28,8 +28,16 @@ class DataVizTwo extends Component {
     super()
     this.state = {
         alpha:0,
+        textA:0,
+        textB:0,
+        textC:0,
+        textD:0
       }
     this._updateDimensions = this._updateDimensions.bind(this)
+  }
+  _positionTextY(index) {
+    const offsetY = 40
+    return document.getElementById("data-viz").getBoundingClientRect().y+this.yScale(index)+window.scrollY+offsetY
   }
   _getXScale() {
     const HEIGHT = 800
@@ -59,10 +67,23 @@ class DataVizTwo extends Component {
   }
   _updateDimensions(e) {
     //const domObj = document.getElementById('data-viz');
-    console.log("update dims dv2")
+    const canvasBB= document.getElementById("data-viz").getBoundingClientRect();
+    let textOffsets = []
+
+    Array.from(document.getElementsByClassName("scale-text")).map(e=>{
+
+      textOffsets.push(parseInt(document.getElementById("data-viz").getBoundingClientRect().width-e.getBoundingClientRect().width)/2)
+    })
+
     this.xScale = this._getXScale()
     this.yScale = this._getYScale()
-    this.forceUpdate();
+    this.setState({
+      textA: canvasBB.x+ textOffsets[0],
+      textB: canvasBB.x+textOffsets[1],
+      textC: canvasBB.x+textOffsets[2],
+      textD: canvasBB.x+textOffsets[3]
+    })
+    //this.forceUpdate();
   }
   componentWillMount() {
     window.addEventListener("resize", this._updateDimensions);
@@ -100,6 +121,7 @@ class DataVizTwo extends Component {
   }
   render() {
     return (
+      <div id="pos-ref">
         <svg id="data-viz" style={styles.dataViz}>
           <g id="survey-group">
             {[0,1,2,3].map(e=>{
@@ -174,6 +196,11 @@ class DataVizTwo extends Component {
 
           </g>
         </svg>
+        <div className="scale-text" style={{position:'absolute', top: this._positionTextY(0), left: this.state.textA}}>{this.props.questionThree.scaleA}</div>
+        <div className="scale-text" style={{position:'absolute', top: this._positionTextY(1), left: this.state.textB}}>{this.props.questionThree.scaleB}</div>
+        <div className="scale-text" style={{position:'absolute', top: this._positionTextY(2), left: this.state.textC}}>{this.props.questionThree.scaleC}</div>
+        <div className="scale-text" style={{position:'absolute', top: this._positionTextY(3), left: this.state.textD}}>{this.props.questionThree.scaleD}</div>
+      </div>
     );
   }
   componentWillUnmount(){

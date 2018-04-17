@@ -1,3 +1,4 @@
+import { delay } from 'redux-saga'
 import { call, put, takeLatest } from 'redux-saga/effects'
 import {client} from './client';
 import {store} from './App'
@@ -42,6 +43,8 @@ function* handleFormStep(action) {
             group:currentForm.group+1,
             questionType:'text',
             ...currentForm.questionOne}});
+        yield delay(2000)
+        yield put({ type: 'SET_ACTIVE_TAB', payload:1 })
         break;
       case 3:
         console.log("post q2")
@@ -50,6 +53,8 @@ function* handleFormStep(action) {
             group:currentForm.group+1,
             questionType:'text',
             ...currentForm.questionTwo}});
+        yield delay(2000)
+        yield put({ type: 'SET_ACTIVE_TAB', payload:2 })
         break;
       case 4:
         console.log("post q3")

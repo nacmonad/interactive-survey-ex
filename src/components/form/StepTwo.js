@@ -42,6 +42,11 @@ class StepTwo extends Component {
           type="text"
           id="question-two"
           multiline
+          placeholder="Tell us what you think..."
+          rows={6}
+          rowsMax={10}
+          inputProps={{style:{backgroundColor:'#efefef', marginTop:'2em', borderRadius:'5px'}}}
+
           value={this.props.form.questionTwo.text}
           onChange={this._handleChange.bind(this)}
           className={classes.textField}
