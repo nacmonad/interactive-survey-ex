@@ -83,6 +83,8 @@ class DataVizTwo extends Component {
       textC: canvasBB.x+textOffsets[2],
       textD: canvasBB.x+textOffsets[3]
     })
+    console.log("updating dims!")
+    console.log(this.state)
     //this.forceUpdate();
   }
   componentWillMount() {
@@ -196,10 +198,10 @@ class DataVizTwo extends Component {
 
           </g>
         </svg>
-        <div className="scale-text" style={{position:'absolute', top: this._positionTextY(0), left: this.state.textA}}>{this.props.questionThree.scaleA}</div>
-        <div className="scale-text" style={{position:'absolute', top: this._positionTextY(1), left: this.state.textB}}>{this.props.questionThree.scaleB}</div>
-        <div className="scale-text" style={{position:'absolute', top: this._positionTextY(2), left: this.state.textC}}>{this.props.questionThree.scaleC}</div>
-        <div className="scale-text" style={{position:'absolute', top: this._positionTextY(3), left: this.state.textD}}>{this.props.questionThree.scaleD}</div>
+        <div className="scale-text" style={{position:'absolute', top: this._positionTextY(0), marginLeft:'1em', marginRight:'1em'}}>{this.props.questionThree.scaleA}</div>
+        <div className="scale-text" style={{position:'absolute', top: this._positionTextY(1), marginLeft:'1em', marginRight:'1em'}}>{this.props.questionThree.scaleB}</div>
+        <div className="scale-text" style={{position:'absolute', top: this._positionTextY(2), marginLeft:'1em', marginRight:'1em'}}>{this.props.questionThree.scaleC}</div>
+        <div className="scale-text" style={{position:'absolute', top: this._positionTextY(3), marginLeft:'1em', marginRight:'1em'}}>{this.props.questionThree.scaleD}</div>
       </div>
     );
   }

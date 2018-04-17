@@ -60,8 +60,8 @@ class StepOne extends Component {
           id="question-one"
           multiline
           placeholder="Tell us what you think..."
-          rows={6}
-          rowsMax={10}
+          rows={10}
+          rowsMax={14}
           inputProps={{style:{backgroundColor:'#efefef', marginTop:'2em', borderRadius:'5px'}}}
           value={this.props.form.questionOne.text}
           className={classes.textField}

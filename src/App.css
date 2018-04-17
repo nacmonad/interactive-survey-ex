@@ -1,3 +1,29 @@
+@font-face {
+  font-family: 'Futura';
+  font-style: medium;
+  font-weight: 400;
+  src: local('./fonts/Futura Medium.otf'), url('./fonts/Futura Medium.otf') format('opentype'); /* IE9 Compat Modes */
+}
+body {
+  font-family: 'Futura';
+}
+
+blockquote {
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+
+blockquote:before {
+  content: open-quote;
+  font-family: Times serif;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+
+
 .App {
   text-align: center;
   padding:15px;

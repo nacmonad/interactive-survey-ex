@@ -38,9 +38,6 @@ class ResponseViewer extends Component {
     return (
       <div style={{width:'100%'}}>
       <div id="viz-head">
-        <Typography variant="headline" component="h2">
-          response visualization
-        </Typography>
         <Tabs
           value={this.props.activeTab}
           onChange={this.handleChange}
@@ -51,9 +48,9 @@ class ResponseViewer extends Component {
           }}
             fullWidth
           >
-          <Tab label="One" />
-          <Tab label="Two" />
-          <Tab label="Three" />
+          <Tab label="COMPASSIONATE CARE" style={{maxWidth:'110px'}}/>
+          <Tab label="INSPIRED PEOPLE" style={{maxWidth:'110px'}}/>
+          <Tab label="SUCCESSFUL INNOVATION" style={{maxWidth:'110px'}}/>
         </Tabs>
         </div>
         <div className="viz-wrap" style={styles.vizWrap}>

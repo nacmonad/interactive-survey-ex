@@ -4,6 +4,8 @@ import {store} from '../../App.js'
 import {colourGenerator} from '../../js/colourGenerator'
 import * as d3 from 'd3';
 
+import ResponseBox from './ResponseBox';
+
 const styles = {
   dataViz: {
     height:'800px',
@@ -112,6 +114,7 @@ class DataViz extends Component {
   componentWillUnmount(){
     this.simulation.stop();
     window.removeEventListener('resize', this._updateDimensions);
+    clearTimeout(this.timeout)
 
   }
 
@@ -150,7 +153,7 @@ class DataViz extends Component {
       this.simulation.stop()
 
 
-      setTimeout(()=>this.afterTimeout(d), 800)
+      this.timeout = setTimeout(()=>this.afterTimeout(d), 800)
     }
 
     afterTimeout(d) {
@@ -191,7 +194,7 @@ class DataViz extends Component {
           <g id="survey-group">
             {
               this.responses.map((e,i)=>{
-
+                console.log()
                 return (
                   <g key={e._id}>
                     <rect
@@ -200,18 +203,18 @@ class DataViz extends Component {
                       x={e.x}
                       y={e.y}
                       width={25}
-                      height={10}
+                      height={18}
                       stroke={'black'}
-                      strokeWidth={1}
+                      strokeWidth={0.5}
+                      rx={2}
+                      ry={2}
                       fill={colourGenerator(e.group)}
                       onClick={this.handleClick.bind(this)}>
 
                       </rect>
                       { (e._id === this.props.viz.active && this.state.textShow) ?
-                        ( <foreignObject fill="pink" x={this.state.textLeft-10} y={this.state.textBottom-10} width={this.state.textWidth-10} height={this.state.textHeight-10}>
-                            <div className="foreign-object" style={{backgroundColor:"pink", height:'100%', width:'100%', textAlign:'initial', margin:'5'}}>
-                              {e.text}
-                            </div>
+                        ( <foreignObject x={this.state.textLeft-10} y={this.state.textBottom-10} width={this.state.textWidth-10} height={this.state.textHeight-10}>
+                            <ResponseBox text={e.text} group={e.group}/>
                           </foreignObject> ) :
                         ("")
                       }
