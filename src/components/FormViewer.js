@@ -27,12 +27,6 @@ import StepFour from './form/StepFour';
 
 
 const styles = {
-  formWrapper:{
-    width:'100%',
-    maxWidth:'660px',
-    paddingTop:'1.5rem',
-    paddingBottom:'1.5rem'
-  },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
@@ -83,13 +77,25 @@ class FormViewer extends Component {
     if(e > this.props.form.step) this.props.formStepUp();
     if(e < this.props.form.step) this.props.formStepDown();
   }
+  _updateWidth(e){
+    console.log(e)
+  }
 
   render() {
     const { classes } = this.props;
     const bull = <span className={classes.bullet}>•</span>;
 
     return (
-      <div id="form-wrapper" style={styles.formWrapper}>
+      <div id="form-wrapper"
+        style={this.props.screenWidth < 880 ? {
+            maxWidth:'100%',
+            paddingTop:'1.5rem',
+            paddingBottom:'1.5rem'
+          } :{
+            maxWidth:'50%',
+            paddingTop:'1.5rem',
+            paddingBottom:'1.5rem'
+          } }>
 
           <SwipeableViews
             enableMouseEvents

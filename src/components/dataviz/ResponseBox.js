@@ -35,23 +35,33 @@ export default class ResponseBox extends Component {
           color: textColourGenerator(this.props.group)
         }}>
 
-          <blockquote className="response-text" style={styles.responseText}>
+          <blockquote className="response-text" style={{
+            marginTop:window.innerWidth < 880 ? 0 : '1rem',
+            marginLeft:window.innerWidth < 880 ? 0 : '1rem'
+          }}>
             <p>{this.props.text}</p>
           </blockquote>
 
-          <div style={{zIndex:2,position:'relative', width:'90%', marginLeft:'auto', marginRight:'auto', marginBottom:'1em'}}>
-            <div className="divider"
-              style={{
-              width:'100%',
-              height:'0.125em',
-              backgroundColor: textColourGenerator(this.props.group)
-            }}></div>
-            <div className="profession"
-              style={{
-              fontWeight:'500',
-              fontSize:'18px'}}>{nameGenerator(this.props.group).toUpperCase()}
-            </div>
+          <div style={{
+            width:'90%',
+            height:'2rem',
+            display:'flex',
+            flexDirection:'column',
+            justifyContent:'space-between',
+            marginLeft:window.innerWidth < 880 ? '0.5rem' : '1.5rem',
+            marginBottom:window.innerWidth < 880 ? '0.25rem' : '1rem'}}>
+              <div className="divider-bar"
+                style={{
+                height:'0.125em',
+                backgroundColor: textColourGenerator(this.props.group)
+              }}></div>
+              <div className="profession"
+                style={{
+                fontWeight:'500',
+                fontSize:'18px'}}>{nameGenerator(this.props.group).toUpperCase()}
+              </div>
           </div>
+
 
 
       </div>

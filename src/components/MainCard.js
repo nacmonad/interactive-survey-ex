@@ -13,6 +13,9 @@ import GridList, {GridListTile} from 'material-ui/GridList'
 import FormViewer from './FormViewer';
 import ResponseViewer from './ResponseViewer';
 import IntroDialog from './IntroDialog';
+import Header from './Header';
+import Divider from './Divider';
+import Footer from './Footer';
 
 const styles = {
   root: {
@@ -70,16 +73,26 @@ class MainCard extends Component {
     this.setState({formHeight:document.getElementById("form-wrapper").clientHeight, mounted:true})
   }
   render() {
-    const wrapperStyle = this.state.width > 880 ? {height:'100%', display:'flex', flexDirection:  'row' , justifyContent:'flex-end'}
+    let wrapperStyle = this.state.width > 880 ? {width:'100%',height:'100%', display:'flex', flexDirection:  'row' , justifyContent:'flex-end'}
         : {height:'100%', display:'flex', flexDirection:  'column-reverse', alignItems:'center'}
 
-
+    // if(this.props.showIntroDialog && this.state.width > 880 ) {
+    //   wrapperStyle = {height:'100%', display:'flex', flexDirection:  'row-reverse' , justifyContent:'flex-end'}
+    // }
     return (
-      <Card style={wrapperStyle}>
-          {!this.props.showIntroDialog && <ResponseViewer/>}
-          {this.props.showForm &&  <FormViewer/>}
-          {this.props.showIntroDialog && <IntroDialog open={this.props.showIntroDialog} closeDialog={this.props.closeDialog}/>}
-      </Card>
+      <div>
+
+        <Card >
+        <Header/>
+        <Divider/>
+        <div style={wrapperStyle}>
+            {!this.props.showIntroDialog && <ResponseViewer/>}
+            {this.props.showForm &&  <FormViewer screenWidth={this.state.width}/>}
+            {this.props.showIntroDialog && <IntroDialog open={this.props.showIntroDialog} closeDialog={this.props.closeDialog}/>}
+        </div>
+        <Footer/>
+        </Card>
+      </div>
     );
   }
   componentWillUnmount() {

@@ -24,9 +24,12 @@ class StepThree extends Component {
       <div style={{height:'100%',display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
 
         <Typography variant="headline" component="h2">
-          THANKS!
+          Thanks for participating!
         </Typography>
-        <Button variant="raised" style={{ width:'280px' }} onClick={this.props.hideForm}>
+        <Typography variant="body2" >
+          Hide the form and explore the survey results.
+        </Typography>
+        <Button variant="raised" style={{ width:'280px' , marginTop:'2rem'}} onClick={this.props.hideForm}>
          Hide Form
         </Button>
       </div>

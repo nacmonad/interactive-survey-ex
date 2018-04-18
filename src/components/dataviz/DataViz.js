@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+  import React, { Component } from 'react';
 
 import {store} from '../../App.js'
 import {colourGenerator} from '../../js/colourGenerator'
@@ -74,11 +74,11 @@ class DataViz extends Component {
     console.log(this.responses)
     console.log(this.props)
     //this.timeout = setTimeout(this._updateDimensions, 100);
-    
+
 
   }
   shouldComponentUpdate(newProps) {
-    if(this.state.textShow) {
+    if(this.state.textShow ) {
       //block updates like text edits, or new rect entries
       return false;
     }
@@ -217,7 +217,7 @@ class DataViz extends Component {
 
                       </rect>
                       { (e._id === this.props.viz.active && this.state.textShow) ?
-                        ( <foreignObject x={this.state.textLeft-10} y={this.state.textBottom-10} width={this.state.textWidth-10} height={this.state.textHeight-10}>
+                        ( <foreignObject x={this.state.textLeft-10} y={this.state.textBottom-10-128} width={this.state.textWidth-10} height={this.state.textHeight-10}>
                             <ResponseBox text={e.text} group={e.group}/>
                           </foreignObject> ) :
                         ("")

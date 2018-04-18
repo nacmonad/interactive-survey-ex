@@ -37,7 +37,7 @@ class ResponseViewer extends Component {
     const {classes} = this.props
     return (
       <div style={{width:'100%'}}>
-      <div id="viz-head">
+      <div id="viz-head" style={{width:'100%'}}>
         <Tabs
           value={this.props.activeTab}
           onChange={this.handleChange}

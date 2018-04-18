@@ -7,9 +7,7 @@ export default class Circle extends Component {
     r:0
   }
   componentDidMount() {
-    setTimeout(()=>{
       this.setState({r:25})
-    }, 100)
   }
   render() {
     return(
