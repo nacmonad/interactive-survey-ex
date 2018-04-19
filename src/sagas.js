@@ -65,6 +65,8 @@ function* handleFormStep(action) {
             group:currentForm.group+1,
             questionType:'scale',
             ...currentForm.questionThree}});
+        yield delay(1500)
+        yield put({ type: 'SET_ACTIVE_TAB', payload:0 })
         break;
       default:
         console.log("unhandled case " + currentForm.step)

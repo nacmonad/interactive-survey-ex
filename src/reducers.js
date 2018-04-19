@@ -11,7 +11,9 @@ import { ZOOMED,
   TOGGLE_DISABLE_SLIDER,
   HIDE_FORM,
   SET_ACTIVE_TAB,
-  CLOSE_DIALOG } from './actions';
+  CLOSE_DIALOG,
+  SHOW_LEGEND,
+  CLOSE_LEGEND } from './actions';
 
 const initialState = {
   responseSet: {
@@ -28,6 +30,7 @@ const initialState = {
   },
   activeTab:0,
   showIntroDialog: true,
+  showLegendDialog: false,
   showForm:true,
   form: {
     group:-1,
@@ -60,6 +63,16 @@ export default function main(state, action) {
   }
 
   switch(action.type) {
+    case SHOW_LEGEND:
+      return {
+        ...state,
+        showLegendDialog:true
+      }
+    case CLOSE_LEGEND:
+      return {
+        ...state,
+        showLegendDialog:false
+      }
     case CLOSE_DIALOG:
       return {
         ...state,

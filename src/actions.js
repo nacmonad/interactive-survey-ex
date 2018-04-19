@@ -24,8 +24,19 @@ export const HIDE_FORM = 'HIDE_FORM'
 export const SET_ACTIVE_TAB = 'SET_ACTIVE_TAB'
 export const CLOSE_DIALOG = 'CLOSE_DIALOG';
 
+export const SHOW_LEGEND = 'SHOW_LEGEND';
+export const CLOSE_LEGEND = 'CLOSE_LEGEND';
+
 export function closeDialog() {
   return {type:CLOSE_DIALOG }
+}
+
+export function showLegend() {
+  return {type:SHOW_LEGEND}
+}
+
+export function closeLegend() {
+  return {type:CLOSE_LEGEND}
 }
 
 export function setActiveTab(tabIndex){
