@@ -50,7 +50,7 @@ export default class ResponseBox extends Component {
             wordWrap:'normal',
             overflowWrap: 'normal'
           }}>
-            <p style={{width:'100%', wordWrap:'break-word'}}>{this.props.text}</p>
+            <p style={{display:'flex', width:'100%', wordWrap:'break-word'}}>{this.props.text}</p>
           </blockquote>
 
           <div style={{
