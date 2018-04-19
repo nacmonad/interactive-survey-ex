@@ -14,6 +14,10 @@ const styles = {
 };
 const STROKE_WIDTH = 0.5;
 
+const categoryCenters = {
+  left: {x:300, y:400},
+  right: {x:500, y:400}
+}
 
 class DataViz extends Component {
   state = {
@@ -110,8 +114,6 @@ class DataViz extends Component {
     //   store.dispatch({type:"ZOOMED", payload:{active:-1, zoomed:false}})
     //   this.simulation.restart()
     // }
-
-
   }
 
   componentWillUnmount(){
@@ -120,10 +122,23 @@ class DataViz extends Component {
     clearTimeout(this.timeout)
 
   }
+  moveTowardCategoryCenter(d){
+    //console.log(d)
+    // if(d.group ===1) {
+    //   console.log(d)
+    //   d.x += (categoryCenters.right.x-d.x)*0.5;
+    //   d.y += (categoryCenters.right.y-d.y)*0.5;
+    // } else {
+    //   d.x += (categoryCenters.left.x-d.x)*0.5;
+    //   d.y += (categoryCenters.left.y-d.y)*0.5;
+    // }
+  }
+  ticked(e) {
 
-  ticked() {
-
-    if(!this.props.viz.zoomed) this.setState({alpha:this.simulation.alpha()})
+    if(!this.props.viz.zoomed) {
+      //this.paths.each(console.log)  
+      this.setState({alpha:this.simulation.alpha()})
+    }
 
   }
 

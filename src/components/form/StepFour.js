@@ -23,11 +23,11 @@ class StepThree extends Component {
     return (
       <div style={{height:'100%',display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
 
-        <Typography variant="headline" component="h2">
+        <Typography variant="headline" color="primary">
           Thanks for participating!
         </Typography>
-        <Typography variant="body2" >
-          Hide the form and explore the survey results.
+        <Typography variant="body1" >
+          You can explore the survey results by hiding the form and using the tabs above.
         </Typography>
         <Button variant="raised" style={{ width:'280px' , marginTop:'2rem'}} onClick={this.props.hideForm}>
          Hide Form

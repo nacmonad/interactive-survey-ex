@@ -49,8 +49,8 @@ render() {
 
 
         </DialogContent>
-        <DialogActions>
-          <Button onClick={this.props.closeDialog} color="primary" autoFocus>
+        <DialogActions style={{display:'flex', justifyContent:'center'}}>
+          <Button onClick={this.props.closeDialog} color="primary" size="large" style={{width:'95%', height:'4rem', fontSize:'1.5rem'}} autoFocus>
             Continue
           </Button>
         </DialogActions>

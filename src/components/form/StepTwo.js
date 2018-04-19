@@ -32,13 +32,10 @@ class StepTwo extends Component {
 
     return (
       <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', width:'100%', height:'100%', overflow:'hidden'}}>
-        <Typography className={classes.title} color="textSecondary">
-          What inspires
+        <Typography variant="headline" color="primary">
+          What inspires you to work?
         </Typography>
-        <Typography variant="headline" component="h2">
-          you to work?
-        </Typography>
-        <Input
+        <TextField
           type="text"
           id="question-two"
           multiline
@@ -52,6 +49,13 @@ class StepTwo extends Component {
           className={classes.textField}
           margin="none"
           style={{width:'70%'}}
+          helperText={this.props.form.questionTwo.text !== "" ? "Swipe right or click Next when complete." : ""}
+          FormHelperTextProps={{
+            style:{
+              zIndex:1,
+              height:'1rem'
+            }
+          }}
         />
 
       </div>

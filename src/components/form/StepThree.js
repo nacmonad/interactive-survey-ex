@@ -26,7 +26,8 @@ const styles = {
   ,
   label:{
     display:'block',
-    marginBottom:'1.5em'
+    marginBottom:'1.5em',
+    width:'100%'
   },
 
 }
@@ -48,11 +49,8 @@ class StepThree extends Component {
 
     return (
       <div style={{width:'100%',height:'100%', overflow:'hidden', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'flex-start'}}>
-        <Typography className={classes.title} color="textSecondary">
-          Where would you like to see
-        </Typography>
-        <Typography variant="headline" component="h2">
-          innovation efforts
+        <Typography variant="headline" color="primary">
+          Where would you like to see innovation efforts
         </Typography>
         <FormGroup style={{display:'flex', flexDirection:'column', height:'100%', justifyContent:'space-evenly',alignItems:'center'}}>
           <div className="range-wrapper"

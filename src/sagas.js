@@ -35,6 +35,7 @@ function* handleFormStep(action) {
         break;
       case 1:
         console.log("group completed")
+        yield put({ type: 'SET_ACTIVE_TAB', payload:0 })
         break;
       case 2:
         console.log("post q1")
@@ -43,7 +44,7 @@ function* handleFormStep(action) {
             group:currentForm.group+1,
             questionType:'text',
             ...currentForm.questionOne}});
-        yield delay(2000)
+        yield delay(1500)
         yield put({ type: 'SET_ACTIVE_TAB', payload:1 })
         break;
       case 3:
@@ -53,7 +54,7 @@ function* handleFormStep(action) {
             group:currentForm.group+1,
             questionType:'text',
             ...currentForm.questionTwo}});
-        yield delay(2000)
+        yield delay(1500)
         yield put({ type: 'SET_ACTIVE_TAB', payload:2 })
         break;
       case 4:

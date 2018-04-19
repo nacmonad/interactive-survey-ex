@@ -14,7 +14,7 @@ const styles = {
     justifyContent:'space-around',
     marginLeft:'1rem',
     marginRight:'1rem'
-  },
+  }
 
 }
 
@@ -26,7 +26,7 @@ export default function Footer (props){
           Have questions?
         </Typography>
         <Typography variant="subheading" style={{color:'rgba(255,255,255,0.8)'}} gutterBottom>
-            Email <a style={styles.a} href="mailto:stratplan@stjoes.ca">stratplan@stjoes.ca</a>
+            Email <a href="mailto:stratplan@stjoes.ca">stratplan@stjoes.ca</a>
           </Typography>
       </div>
     </div>

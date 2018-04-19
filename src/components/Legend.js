@@ -15,7 +15,7 @@ const styles = {
     marginBottom: 12,
   },
 }
-class StepZero extends Component {
+class Legend extends Component {
   state = {
     checked: Array(11).fill(false),
     professions: ['Nursing',
@@ -39,20 +39,6 @@ class StepZero extends Component {
       this.props.formSetGroup(i)
       this.setState({ checked: newChecked});
     };
-  componentDidUpdate() {
-    if(this.state.checked.indexOf(true) > -1) {
-      console.log("setting progress bar style")
-      document.getElementById('form-stepper').getElementsByTagName('div')[0].childNodes[0].style.backgroundColor =convertToRgba(colourGenerator(this.state.checked.indexOf(true)+1), 1)
-      Array.from(document.getElementsByClassName('input-range__track--active')).map(e=>{
-        e.style.backgroundColor = convertToRgba(colourGenerator(this.state.checked.indexOf(true)+1), 0.8)
-      })
-    Array.from(document.getElementsByClassName('input-range__slider')).map(e=>{
-      e.style.backgroundColor = convertToRgba(colourGenerator(this.state.checked.indexOf(true)+1), 1)
-      e.style.border = `1px solid ${convertToRgba(colourGenerator(this.state.checked.indexOf(true)+1), 1)}`
-    })
-    }
-    //= convertToRgba(colourGenerator(this.state.checked.indexOf(true)+1), 1)
-  }
 
   render() {
     const { classes } = this.props;
@@ -61,7 +47,7 @@ class StepZero extends Component {
     return (
       <div>
         <Typography variant="headline" color="primary">
-          Choose your profession
+          Filter by profession
         </Typography>
         <List>
           {this.state.checked.map((e,i)=>{
@@ -84,4 +70,4 @@ class StepZero extends Component {
   }
 }
 
-export default withStyles(styles)(StepZero);
+export default withStyles(styles)(Legend);

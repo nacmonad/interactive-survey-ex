@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import { withStyles } from 'material-ui/styles';
 
 import TextField from 'material-ui/TextField';
-import Input from 'material-ui/Input';
+//import Input from 'material-ui/Input';
+
 import Typography from 'material-ui/Typography';
 
 import {store} from '../../App'
@@ -49,13 +50,10 @@ class StepOne extends Component {
 
     return (
       <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', width:'100%', height:'100%', overflow:'hidden'}}>
-        <Typography className={classes.title} color="textSecondary">
-          How do you
+        <Typography variant="headline" color="primary">
+          How do you show compassionate care?
         </Typography>
-        <Typography variant="headline" component="h2">
-          show compassionate care?
-        </Typography>
-        <Input
+        <TextField
           type="text"
           id="question-one"
           multiline
@@ -68,6 +66,14 @@ class StepOne extends Component {
           margin="none"
           style={{width:'70%'}}
           onChange={this._handleChange.bind(this)}
+          helperText={this.props.form.questionOne.text !== "" ? "Swipe right or click Next when complete." : ""}
+          FormHelperTextProps={{
+            style:{
+              zIndex:1,
+              height:'1rem'
+            },
+            margin: 'dense'
+          }}
 
         />
 
