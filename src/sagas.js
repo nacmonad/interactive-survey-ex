@@ -4,14 +4,11 @@ import {client} from './client';
 import {store} from './App'
 
 async function ApiPostResponse(action) {
-  console.log(action.response)
   return await client.service('responses').create(action.response);
 }
 
 // worker Saga: will be fired on POST_RESPONSE_REQUESTED actions
 function* postResponse(action) {
-  console.log("post response requested!")
-
    try {
       const response = yield call(ApiPostResponse, action);
       yield put({type: "POST_RESPONSE_SUCCEEDED", response});
@@ -28,17 +25,13 @@ export function* postSaga() {
 function* handleFormStep(action) {
   let currentForm = store.getState().main.form;
   try {
-    console.log("Hnalde the form side effect!")
-    console.log(currentForm)
     switch(currentForm.step){
       case 0:
         break;
       case 1:
-        console.log("group completed")
         yield put({ type: 'SET_ACTIVE_TAB', payload:0 })
         break;
       case 2:
-        console.log("post q1")
         yield put({type: "POST_RESPONSE_REQUESTED",
           response:{ questionId:1,
             group:currentForm.group+1,
@@ -48,7 +41,6 @@ function* handleFormStep(action) {
         yield put({ type: 'SET_ACTIVE_TAB', payload:1 })
         break;
       case 3:
-        console.log("post q2")
         yield put({type: "POST_RESPONSE_REQUESTED",
           response:{ questionId:2,
             group:currentForm.group+1,
@@ -58,7 +50,6 @@ function* handleFormStep(action) {
         yield put({ type: 'SET_ACTIVE_TAB', payload:2 })
         break;
       case 4:
-        console.log("post q3")
         yield put({type: "POST_RESPONSE_REQUESTED",
           response:{
             questionId:3,

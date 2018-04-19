@@ -38,7 +38,7 @@ render() {
           LEGEND
           </Typography>
 
-          <img src={logo} alt={"logo"} style={{minWidth:'330px'}}/>
+          <img src={logo} alt={"logo"} style={{width:'500px'}}/>
 
         </DialogContent>
         <DialogActions style={{display:'flex', justifyContent:'center'}}>

@@ -39,7 +39,6 @@ class DataVizTwo extends Component {
   _positionTextY(index) {
     const offsetY = 40
     const ret = document.getElementById("data-viz").getBoundingClientRect().top+this.yScale(index)+window.pageYOffset+offsetY
-    console.log(ret)
     return ret
   }
   _getXScale() {
@@ -73,7 +72,6 @@ class DataVizTwo extends Component {
     const canvasBB= document.getElementById("data-viz").getBoundingClientRect();
     let textOffsets = []
 
-    console.log(canvasBB)
     Array.from(document.getElementsByClassName("scale-text")).map(e=>{
 
       textOffsets.push(parseInt(document.getElementById("data-viz").getBoundingClientRect().width-e.getBoundingClientRect().width)/2)
@@ -81,20 +79,12 @@ class DataVizTwo extends Component {
 
     this.xScale = this._getXScale()
     this.yScale = this._getYScale()
-    console.log(this.yScale(0))
-    console.log(this.yScale(1))
-    console.log(this.yScale(2))
-    console.log(this.yScale(3))
     this.setState({
       textA: canvasBB.left+ textOffsets[0],
       textB: canvasBB.left+textOffsets[1],
       textC: canvasBB.left+textOffsets[2],
       textD: canvasBB.left+textOffsets[3]
     })
-    console.log("updating dims!")
-    console.log(this.state)
-    console.log(canvasBB)
-    console.log(textOffsets)
     //this.forceUpdate();
   }
   componentWillMount() {
@@ -121,9 +111,7 @@ class DataVizTwo extends Component {
   }
 
   componentWillUpdate(nextProps){
-    console.log("NEW PROPS UPDATE dviz@2")
     this.responses = nextProps.responses.filter(e=>e.questionId===this.props.questionId);
-    console.log(this.responses)
   }
   componentDidUpdate(oldProps) {
     if(oldProps.showForm !== this.props.showForm) {

@@ -50,8 +50,6 @@ class MainCard extends Component {
   }
 
   _updateWidth(e) {
-    console.log("update width")
-    console.log(e)
     if(this.state.mounted ) {
       if(this.props.showForm) {
         this.setState({width:e.target.innerWidth, formHeight:document.getElementById("form-wrapper").clientHeight})

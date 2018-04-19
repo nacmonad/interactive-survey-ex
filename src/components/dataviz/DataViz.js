@@ -39,7 +39,6 @@ class DataViz extends Component {
   componentWillMount() {
     window.addEventListener("resize", this._updateDimensions);
     this.responses = []
-    console.log("mounting...")
 
   }
   componentDidMount(){
@@ -76,12 +75,6 @@ class DataViz extends Component {
         .on("tick", this.ticked.bind(this));
 
 
-    console.log("mounted...")
-    console.log(this.responses)
-    console.log(this.props)
-    //this.timeout = setTimeout(this._updateDimensions, 100);
-
-
   }
   shouldComponentUpdate(newProps) {
     if(this.state.textShow ) {
@@ -94,7 +87,7 @@ class DataViz extends Component {
   componentDidUpdate(oldProps){
     if(JSON.stringify(oldProps.responses) !== JSON.stringify(this.props.responses) ||
       oldProps.questionId !== this.props.questionId){
-      console.log("let d3 take over!")
+      //console.log("let d3 take over!")
 
       this.responses = this.props.responses.filter(e=>e.questionId===this.props.questionId);
       this.paths = this.g.data(this.responses);
@@ -108,14 +101,10 @@ class DataViz extends Component {
 
     }
     if(oldProps.showForm !== this.props.showForm) {
-      console.log("form exited!")
+
       this._updateDimensions();
     }
-    // if(oldProps.questionId !== this.props.questionId) {
-    //   console.log("new question id")
-    //   store.dispatch({type:"ZOOMED", payload:{active:-1, zoomed:false}})
-    //   this.simulation.restart()
-    // }
+
   }
 
   componentWillUnmount(){
@@ -124,21 +113,10 @@ class DataViz extends Component {
     clearTimeout(this.timeout)
 
   }
-  moveTowardCategoryCenter(d){
-    //console.log(d)
-    // if(d.group ===1) {
-    //   console.log(d)
-    //   d.x += (categoryCenters.right.x-d.x)*0.5;
-    //   d.y += (categoryCenters.right.y-d.y)*0.5;
-    // } else {
-    //   d.x += (categoryCenters.left.x-d.x)*0.5;
-    //   d.y += (categoryCenters.left.y-d.y)*0.5;
-    // }
-  }
+
   ticked(e) {
 
     if(!this.props.viz.zoomed) {
-      //this.paths.each(console.log)
       this.setState({alpha:this.simulation.alpha()})
     }
 
@@ -184,8 +162,6 @@ class DataViz extends Component {
         offsetY = window.innerWidth > 880 ? (document.getElementById("viz-head").clientHeight ): (document.getElementById("viz-head").clientHeight + document.getElementById("form-wrapper").clientHeight )
       }
 
-      console.log(d.id)
-
       this.setState({
         textShow:true,
         textLeft:bb.left.toString(),
@@ -202,14 +178,10 @@ class DataViz extends Component {
     this.clicked(event.target, domObj.getBoundingClientRect().width, domObj.getBoundingClientRect().height)
     //class as active
     const respIndex = this.responses.findIndex(e=>e._id===event.target.id);
-    console.log(this.responses[respIndex])
     store.dispatch({type:"ZOOMED", payload:{active:event.target.id, zoomed:true, group:this.responses[respIndex].group, text:this.responses[respIndex].text  }})
   }
   _updateDimensions(e) {
     const domObj = document.getElementById('data-viz');
-    console.log("update dims")
-    console.log(domObj.clientWidth)
-    console.log(document.getElementsByClassName('viz-wrap')[0].getBoundingClientRect().width)
     if(this.responses.length > 0) {
       this.simulation
         .force("center", d3.forceCenter(domObj.getBoundingClientRect().width/2, domObj.getBoundingClientRect().height/2));

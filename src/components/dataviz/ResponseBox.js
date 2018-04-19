@@ -42,9 +42,15 @@ export default class ResponseBox extends Component {
 
           <blockquote className="response-text" style={{
             marginTop:window.innerWidth < 880 ? 0 : '1rem',
-            marginLeft:window.innerWidth < 880 ? 0 : '1rem'
+            marginLeft:window.innerWidth < 880 ? 0 : '1rem',
+            display:'flex',
+            flexDirection:'column',
+            alignItems:'flex-start',
+            width:this.props.width-60,
+            wordWrap:'normal',
+            overflowWrap: 'normal'
           }}>
-            <p>{this.props.text}</p>
+            <p style={{width:'100%', wordWrap:'break-word'}}>{this.props.text}</p>
           </blockquote>
 
           <div style={{
