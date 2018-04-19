@@ -9,7 +9,7 @@ const styles = {
     display:'flex',
     height:'96px',
     width:'100%',
-    background: 'white',
+    background: 'white'
   }
 
 }

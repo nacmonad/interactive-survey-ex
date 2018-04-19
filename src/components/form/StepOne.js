@@ -60,7 +60,7 @@ class StepOne extends Component {
           placeholder="Tell us what you think..."
           rows={10}
           rowsMax={14}
-          inputProps={{style:{backgroundColor:'#efefef', marginTop:'2em', borderRadius:'5px'}}}
+          inputProps={{style:{backgroundColor:'#efefef', marginTop:'2em', borderRadius:'5px', overflow:'auto'}}}
           value={this.props.form.questionOne.text}
           className={classes.textField}
           margin="none"

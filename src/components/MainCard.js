@@ -76,13 +76,9 @@ class MainCard extends Component {
     let wrapperStyle = this.state.width > 880 ? {width:'100%',height:'100%', display:'flex', flexDirection:  'row' , justifyContent:'flex-end'}
         : {height:'100%', display:'flex', flexDirection:  'column-reverse', alignItems:'center'}
 
-    // if(this.props.showIntroDialog && this.state.width > 880 ) {
-    //   wrapperStyle = {height:'100%', display:'flex', flexDirection:  'row-reverse' , justifyContent:'flex-end'}
-    // }
     return (
       <div>
-
-        <Card >
+        <Card style={{zIndex:0}}>
         <Header/>
         <Divider/>
         <div style={wrapperStyle}>

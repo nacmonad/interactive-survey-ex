@@ -52,7 +52,7 @@ class StepThree extends Component {
         <Typography variant="headline" color="primary">
           Where would you like to see innovation efforts
         </Typography>
-        <FormGroup style={{display:'flex', flexDirection:'column', height:'100%', justifyContent:'space-evenly',alignItems:'center'}}>
+        <FormGroup style={{display:'flex', flexDirection:'column', height:'100%', justifyContent:'space-around',alignItems:'center'}}>
           <div className="range-wrapper"
            style={styles.rangeWrapper}
            onMouseDown={this._handleMouseDown.bind(this)}
@@ -65,6 +65,7 @@ class StepThree extends Component {
                 minValue={0}
                 value={this.props.form.questionThree.scaleA}
                 onChange={(value)=>this._handleChange( value, "scaleA")}
+                formatLabel={value=> ''}
                />
              </div>
           </div>

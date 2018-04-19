@@ -21,15 +21,20 @@ export default class ResponseBox extends Component {
 
 
   render(){
+    console.log(this.props)
     return (
       <div
-        className="foreign-object"
+        className="response-box"
         style={{
+          position:'absolute',
           display:'flex',
           flexDirection:'column',
           justifyContent:'space-between',
-          height:'100%',
-          width:'100%',
+          alignItems:'flex-start',
+          height: this.props.height,
+          width:this.props.width,
+          top: window.innerWidth < 880 && this.props.showForm ? this.props.y+96+96+document.getElementById('form-wrapper').getBoundingClientRect().height :this.props.y+96+96 ,
+          left: this.props.x + 20,
           textAlign:'initial',
           margin:'5em, 0, 5em, 0',
           color: textColourGenerator(this.props.group)
@@ -48,10 +53,12 @@ export default class ResponseBox extends Component {
             display:'flex',
             flexDirection:'column',
             justifyContent:'space-between',
+            alignItems:'flex-start',
             marginLeft:window.innerWidth < 880 ? '0.5rem' : '1.5rem',
             marginBottom:window.innerWidth < 880 ? '0.25rem' : '1rem'}}>
               <div className="divider-bar"
                 style={{
+                width:'100%',
                 height:'0.125em',
                 backgroundColor: textColourGenerator(this.props.group)
               }}></div>

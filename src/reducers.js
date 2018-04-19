@@ -48,6 +48,8 @@ const initialState = {
   },
   viz:{
     active:-1,
+    group:-1,
+    text:"",
     zoomed:false
   }
 };

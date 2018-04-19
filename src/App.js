@@ -14,7 +14,6 @@ import {_getInitialResponses, _connectionHandler} from './js/connectionHandler';
 import { MuiThemeProvider } from 'material-ui/styles';
 import theme from './theme'
 
-
 /* Main View & Extra Styles*/
 import MainCard from './components/MainCard';
 import './App.css';

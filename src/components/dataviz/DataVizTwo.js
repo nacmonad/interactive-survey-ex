@@ -34,10 +34,13 @@ class DataVizTwo extends Component {
         textD:0
       }
     this._updateDimensions = this._updateDimensions.bind(this)
+    this._positionTextY = this._positionTextY.bind(this)
   }
   _positionTextY(index) {
     const offsetY = 40
-    return document.getElementById("data-viz").getBoundingClientRect().y+this.yScale(index)+window.scrollY+offsetY
+    const ret = document.getElementById("data-viz").getBoundingClientRect().top+this.yScale(index)+window.pageYOffset+offsetY
+    console.log(ret)
+    return ret
   }
   _getXScale() {
     const HEIGHT = 800
@@ -70,6 +73,7 @@ class DataVizTwo extends Component {
     const canvasBB= document.getElementById("data-viz").getBoundingClientRect();
     let textOffsets = []
 
+    console.log(canvasBB)
     Array.from(document.getElementsByClassName("scale-text")).map(e=>{
 
       textOffsets.push(parseInt(document.getElementById("data-viz").getBoundingClientRect().width-e.getBoundingClientRect().width)/2)
@@ -77,11 +81,15 @@ class DataVizTwo extends Component {
 
     this.xScale = this._getXScale()
     this.yScale = this._getYScale()
+    console.log(this.yScale(0))
+    console.log(this.yScale(1))
+    console.log(this.yScale(2))
+    console.log(this.yScale(3))
     this.setState({
-      textA: canvasBB.x+ textOffsets[0],
-      textB: canvasBB.x+textOffsets[1],
-      textC: canvasBB.x+textOffsets[2],
-      textD: canvasBB.x+textOffsets[3]
+      textA: canvasBB.left+ textOffsets[0],
+      textB: canvasBB.left+textOffsets[1],
+      textC: canvasBB.left+textOffsets[2],
+      textD: canvasBB.left+textOffsets[3]
     })
     console.log("updating dims!")
     console.log(this.state)

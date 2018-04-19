@@ -50,6 +50,10 @@ class StepZero extends Component {
       e.style.backgroundColor = convertToRgba(colourGenerator(this.state.checked.indexOf(true)+1), 1)
       e.style.border = `1px solid ${convertToRgba(colourGenerator(this.state.checked.indexOf(true)+1), 1)}`
     })
+
+    Array.from(document.getElementsByClassName('input-range__label')).map(e=>{
+      e.style.display = 'none'
+    })
     }
     //= convertToRgba(colourGenerator(this.state.checked.indexOf(true)+1), 1)
   }

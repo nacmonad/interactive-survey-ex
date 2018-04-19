@@ -28,7 +28,9 @@ class DataViz extends Component {
     textLeft:0,
     textTop:0,
     textWidth:0,
-    textHeight:0
+    textHeight:0,
+    text: "",
+    group: -1
   }
   constructor() {
     super()
@@ -136,7 +138,7 @@ class DataViz extends Component {
   ticked(e) {
 
     if(!this.props.viz.zoomed) {
-      //this.paths.each(console.log)  
+      //this.paths.each(console.log)
       this.setState({alpha:this.simulation.alpha()})
     }
 
@@ -181,12 +183,17 @@ class DataViz extends Component {
       if(this.props.showForm) {
         offsetY = window.innerWidth > 880 ? (document.getElementById("viz-head").clientHeight ): (document.getElementById("viz-head").clientHeight + document.getElementById("form-wrapper").clientHeight )
       }
+
+      console.log(d.id)
+
       this.setState({
         textShow:true,
-        textLeft:bb.x,
-        textBottom:bb.y + window.scrollY - offsetY,
+        textLeft:bb.left.toString(),
+        textBottom:(bb.top + window.pageYOffset - offsetY).toString(),
         textWidth:bb.width,
-        textHeight:bb.height
+        textHeight:bb.height,
+        text:this.props.viz.text,
+        group:this.props.viz.group
       })
     }
   handleClick(event) {
@@ -194,7 +201,9 @@ class DataViz extends Component {
     //zoom to bounding box
     this.clicked(event.target, domObj.getBoundingClientRect().width, domObj.getBoundingClientRect().height)
     //class as active
-    store.dispatch({type:"ZOOMED", payload:{active:event.target.id, zoomed:true}})
+    const respIndex = this.responses.findIndex(e=>e._id===event.target.id);
+    console.log(this.responses[respIndex])
+    store.dispatch({type:"ZOOMED", payload:{active:event.target.id, zoomed:true, group:this.responses[respIndex].group, text:this.responses[respIndex].text  }})
   }
   _updateDimensions(e) {
     const domObj = document.getElementById('data-viz');
@@ -210,39 +219,42 @@ class DataViz extends Component {
 
   render() {
     return (
-        <svg id="data-viz" style={styles.dataViz}>
-          <g id="survey-group">
-            {
-              this.responses.map((e,i)=>{
-                return (
-                  <g key={e._id}>
-                    <rect
-                      id={e._id}
-                      className={e._id === this.props.viz.active ? "active": ""}
-                      x={e.x}
-                      y={e.y}
-                      width={25}
-                      height={18}
-                      stroke={'black'}
-                      strokeWidth={STROKE_WIDTH}
-                      rx={2}
-                      ry={2}
-                      fill={colourGenerator(e.group)}
-                      onClick={this.handleClick.bind(this)}>
+        <div>
+          <svg id="data-viz" style={styles.dataViz}>
+            <g id="survey-group">
+              {
+                this.responses.map((e,i)=>{
+                  return (
+                    <g key={e._id}>
+                      <rect
+                        id={e._id}
+                        className={e._id === this.props.viz.active ? "active": ""}
+                        x={e.x}
+                        y={e.y}
+                        width={25}
+                        height={18}
+                        stroke={'black'}
+                        strokeWidth={STROKE_WIDTH}
+                        rx={2}
+                        ry={2}
+                        fill={colourGenerator(e.group)}
+                        onClick={this.handleClick.bind(this)}>
 
-                      </rect>
-                      { (e._id === this.props.viz.active && this.state.textShow) ?
-                        ( <foreignObject x={this.state.textLeft-10} y={this.state.textBottom-10-128} width={this.state.textWidth-10} height={this.state.textHeight-10}>
-                            <ResponseBox text={e.text} group={e.group}/>
-                          </foreignObject> ) :
-                        ("")
-                      }
-                    </g>
-                  )
-              })
-            }
-          </g>
-        </svg>
+                        </rect>
+                        { /*(e._id === this.props.viz.active && this.state.textShow) ?
+                          ( <foreignObject x={this.state.textLeft-10} y={this.state.textBottom-10-128} width={this.state.textWidth-10} height={this.state.textHeight-10}>
+
+                            </foreignObject> ) :
+                          ("")
+                        */}
+                      </g>
+                    )
+                })
+              }
+            </g>
+          </svg>
+          {this.props.viz.active && this.state.textShow && <ResponseBox showForm={this.props.showForm} text={this.props.viz.text} group={this.props.viz.group} x={this.state.textLeft-10} y={this.state.textBottom-10-128} width={this.state.textWidth-10} height={this.state.textHeight-10}/>}
+        </div>
     );
   }
 }
