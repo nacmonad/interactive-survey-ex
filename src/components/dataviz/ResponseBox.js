@@ -34,23 +34,20 @@ export default class ResponseBox extends Component {
           height: this.props.height,
           width:this.props.width,
           top: window.innerWidth < 880 && this.props.showForm ? this.props.y+96+96+document.getElementById('form-wrapper').getBoundingClientRect().height :this.props.y+96+96 ,
-          left: this.props.x + 20,
+          left: window.innerWidth < 880 ? this.props.x + 15 : this.props.x + 20   ,
           textAlign:'initial',
           margin:'5em, 0, 5em, 0',
           color: textColourGenerator(this.props.group)
         }}>
 
           <blockquote className="response-text" style={{
-            marginTop:window.innerWidth < 880 ? 0 : '1rem',
-            marginLeft:window.innerWidth < 880 ? 0 : '1rem',
+            marginTop:window.innerWidth < 880 ? '1rem' : '1.5rem',
+            marginLeft:'0.5rem',
             display:'flex',
             flexDirection:'column',
-            alignItems:'flex-start',
-            width:this.props.width-60,
-            wordWrap:'normal',
-            overflowWrap: 'normal'
+            wordBreak:'break-all'
           }}>
-            <p style={{display:'flex', width:'100%', wordWrap:'break-word'}}>{this.props.text}</p>
+            <p>{this.props.text}</p>
           </blockquote>
 
           <div style={{
