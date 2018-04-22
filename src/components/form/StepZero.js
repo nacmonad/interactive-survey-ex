@@ -18,17 +18,18 @@ const styles = {
 class StepZero extends Component {
   state = {
     checked: Array(11).fill(false),
-    professions: ['Nursing',
-    'Physician or Psychiatrist',
-    'Other Health Professionals (Pharmacy, Social Work, Therapeutics, Diagnostics)',
-    'Clinical Support Services',
-    'Corporate Support Services',
+    professions: [
+    'Clinical Team Member – Nursing',
+    'Clinical Team Member – Physician or Psychiatrist',
+    'Clinical Team Member – Other Health Professionals (Pharmacy, Social Work, Therapeutics, Diagnostics, etc)',
+    'Clinical Support Services – Administrative Support, Health Records, Environmental Services (EVS) and Patient Food Services etc.',
+    'Corporate Support Services – (Finance, IT, HR, PMO, Risk, Legal, etc.)',
     'Building Services, Materials Management, Logistics, Security',
     'Research',
     'Supervisors, Managers, Directors and Leadership Team',
-    'Volunteers',
-    'Patients and Visitors',
-    'Third Party Staff : Tim Hortons, Honeywell, Aramark'],
+    'Volunteer',
+    'Patient/Visitor',
+    "Third Party Staff – Aramark, Honeywell, Tim Horton's"],
 
     }
   handleChange = (i,event) => {
