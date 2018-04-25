@@ -44,8 +44,7 @@ export default class ResponseBox extends Component {
             marginTop:window.innerWidth < 880 ? '1rem' : '1.5rem',
             marginLeft:'0.5rem',
             display:'flex',
-            flexDirection:'column',
-            wordBreak:'break-all'
+            flexDirection:'column'
           }}>
             <p>{this.props.text}</p>
           </blockquote>
