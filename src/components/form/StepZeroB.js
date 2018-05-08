@@ -44,7 +44,7 @@ class StepZeroB extends Component {
     return (
       <div>
         <Typography variant="headline" color="primary">
-          Choose your profession
+          Choose your location
         </Typography>
         <List>
           {this.state.checked.map((e,i)=>{
