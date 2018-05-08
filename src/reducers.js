@@ -7,6 +7,7 @@ import { ZOOMED,
   FORM_STEP_UP,
   FORM_STEP_DOWN,
   FORM_SET_GROUP,
+  FORM_SET_LOCATION,
   UPDATE_RESPONSE_SET,
   TOGGLE_DISABLE_SLIDER,
   HIDE_FORM,
@@ -147,6 +148,15 @@ export default function main(state, action) {
         form: {
           ...state.form,
           group:action.payload
+        }
+      }
+    case FORM_SET_LOCATION:
+      console.log(action.payload)
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          location:action.payload
         }
       }
     case FORM_STEP_UP:

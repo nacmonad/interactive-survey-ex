@@ -29,31 +29,36 @@ function* handleFormStep(action) {
       case 0:
         break;
       case 1:
-        yield put({ type: 'SET_ACTIVE_TAB', payload:0 })
         break;
       case 2:
+        yield put({ type: 'SET_ACTIVE_TAB', payload:0 })
+        break;
+      case 3:
         yield put({type: "POST_RESPONSE_REQUESTED",
           response:{ questionId:1,
             group:currentForm.group+1,
+            location:currentForm.location,
             questionType:'text',
             ...currentForm.questionOne}});
         yield delay(1500)
         yield put({ type: 'SET_ACTIVE_TAB', payload:1 })
         break;
-      case 3:
+      case 4:
         yield put({type: "POST_RESPONSE_REQUESTED",
           response:{ questionId:2,
             group:currentForm.group+1,
+            location:currentForm.location,
             questionType:'text',
             ...currentForm.questionTwo}});
         yield delay(1500)
         yield put({ type: 'SET_ACTIVE_TAB', payload:2 })
         break;
-      case 4:
+      case 5:
         yield put({type: "POST_RESPONSE_REQUESTED",
           response:{
             questionId:3,
             group:currentForm.group+1,
+            location:currentForm.location,
             questionType:'scale',
             ...currentForm.questionThree}});
         yield delay(1500)

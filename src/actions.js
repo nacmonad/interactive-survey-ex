@@ -16,7 +16,7 @@ export const ZOOMED = 'ZOOMED'
 export const FORM_STEP_UP = 'FORM_STEP_UP';
 export const FORM_STEP_DOWN = 'FORM_STEP_DOWN';
 export const FORM_SET_GROUP = 'FORM_SET_GROUP';
-
+export const FORM_SET_LOCATION = 'FORM_SET_LOCATION';
 export const UPDATE_RESPONSE_SET = 'UPDATE_RESPONSE_SET';
 export const TOGGLE_DISABLE_SLIDER = 'TOGGLE_DISABLE_SLIDER';
 export const HIDE_FORM = 'HIDE_FORM'
@@ -54,7 +54,9 @@ export function updateResponseSet(responseSet) {
 export function formSetGroup(group) {
   return {type:FORM_SET_GROUP, payload:group}
 }
-
+export function formSetLocation(location) {
+  return {type:FORM_SET_LOCATION, payload:location}
+}
 export function responsesInitialized(res) {
   return {type:RESPONSES_INITIALIZED, payload:res}
 }
