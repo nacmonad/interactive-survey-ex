@@ -21,7 +21,7 @@ class StepZero extends Component {
     professions: [
     'Clinical Team Member – Nursing',
     'Clinical Team Member – Physician or Psychiatrist',
-    'Clinical Team Member – Other Health Professionals (Pharmacy, Social Work, Therapeutics, Diagnostics, etc)',
+    'Clinical Team Member – Other Health Professionals (Pharmacy, Social Work, Therapeutics, Diagnostics, Personal Support Worker)',
     'Clinical Support Services – Administrative Support, Health Records, Environmental Services (EVS) and Patient Food Services etc.',
     'Corporate Support Services – (Finance, IT, HR, PMO, Risk, Legal, etc.)',
     'Building Services, Materials Management, Logistics, Security',
